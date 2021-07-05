@@ -5,7 +5,7 @@ import Data from './datas/data'
 import ClassAndSkill from './components/ClassAndSkill'
 
 class App extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
 
         this._changePage = (e) => {
@@ -15,21 +15,21 @@ class App extends React.Component {
         }
 
         this.state = {
-            page:'class',
+            page: 'class',
             v_matrix: false,
             groupList: [...Object.keys(Data)],
-            selectedGroup:'',
-            classList:[],
-            selectedClass:'',
-            classImg:'',
-            skillList:[],
-            skillData:{},
+            selectedGroup: '',
+            classList: [],
+            selectedClass: '',
+            classImg: '',
+            skillList: [],
+            skillData: {},
             _changePage: this._changePage
         }
     }
 
     componentDidMount = () => {
-        if(this.state.selectedGroup == ''){
+        if (this.state.selectedGroup == '') {
             this.setState(prevState => {
                 var group = prevState.groupList[0]
                 var classList = [...Object.keys(Data[group])]
@@ -51,14 +51,17 @@ class App extends React.Component {
         }
     }
 
-    render(){
+    render() {
         const img = (data) => {
             return data ? data.img : null
         }
-        return <Store.Provider value={this.state}>
-            <ClassAndSkill />
-        </Store.Provider>
+        return <div id='mapleCC'>
+            <p className='title'>코어 배치 계산기</p>
+            <Store.Provider value={this.state}>
+                <ClassAndSkill />
+            </Store.Provider>
+        </div>
     }
 }
 
-ReactDOM.render(<App />,document.getElementById('mapleCC'))
+ReactDOM.render(<App />, document.getElementById('mapleCC'))

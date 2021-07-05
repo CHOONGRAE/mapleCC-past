@@ -1,0 +1,14 @@
+$rem:1rem/16;
+
+#mapleCC {
+    width: 100%;
+    max-width: $rem*600;
+    margin: 0 auto;
+    background: #000c;
+    border: {
+        width: $rem*3;
+        style:solid;
+        color: #000c;
+        radius:$rem*16;
+    }
+}

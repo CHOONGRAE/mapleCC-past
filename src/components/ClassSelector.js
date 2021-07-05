@@ -5,15 +5,15 @@ export default class ClassSelector extends React.Component {
     render() {
         const { type, id } = this.props
         return <Store.Consumer>
-            {store => <div id='ClassModal'>
-                <input type='checkbox' name='selector' id={id} value={type === 'group' ? store.group : store.selected} onClick={this._likeRadio}></input>
+            {store => <div id='Selector'>
+                <input type='checkbox' name='selector' id={id} value={type === 'group' ? store.group : store.selectedClass} onClick={this._likeRadio}></input>
                 <label htmlFor={id}><span></span><span>{(type === 'group' ? store.group : store.selectedClass)}</span><span> ▽</span></label>
                 <div className='modal'>
                     {(type === 'group' ? store.groupList : store.classList).map(v => {
                         return !(v === store.group || v === store.selectedClass)
                             ? <div key={v} className='item'>
                                 <input type='button' id={v}
-                                    onClick={() => { this._unchecked(id); type === 'group' ? store._changeTarget(v) : store._changeTarget(store.group, v) }}></input>
+                                    onClick={() => { this._unchecked(id); type === 'group' ? store._changeGroup(v) : store._changeClass(v) }}></input>
                                 <label htmlFor={v}>{v}</label>
                             </div>
                             : null

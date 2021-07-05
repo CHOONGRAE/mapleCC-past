@@ -1,0 +1,21 @@
+@import './ClassSelector.scss';
+
+#Class{
+    $rem:1rem/16;
+    width: calc(100% - #{$rem} * 2);
+    margin: 0 auto;
+
+    .select_class{
+        width: 100%;
+        max-width: $rem * 360;
+        margin: $rem*20 auto;
+    }
+
+    img{
+        display: block;
+        margin: auto;
+        width: calc(100% - #{$rem} * 40);
+        max-width: $rem*400;
+        margin-bottom: $rem*20;
+    }
+}

@@ -1,0 +1,65 @@
+#Selector{
+    $rem:1rem/16;
+    display: inline-block;
+    width:50%;
+    border: {
+        width:$rem;
+        style:solid;
+        color:#000;
+    };
+    box-sizing: border-box;
+    background: #fffe;
+
+    .modal{
+        display: none;
+        position: absolute;
+        background-color: #fffe;
+        width:100%;
+        max-width: $rem*178;
+
+        .item{
+            padding:$rem*2 0;
+            border-top: $rem dotted #bbb;
+
+            &:first-child{
+                border-top: {
+                    width: $rem*3;
+                    style:double;
+                };
+            }
+
+            input{
+                display: none;
+            }
+
+            label{
+                cursor: pointer;
+                display: block;
+                width:100%;
+                text-align: center;
+            }
+        }
+    }
+
+    & > input{
+        display: none;
+
+        &:checked + label + .modal{
+            display: block;
+        }
+    }
+
+    & > label{
+        cursor: pointer;
+        display: flex;
+        width:calc(100% - #{$rem} * 10);
+        padding: $rem*5;
+        font-size: $rem*13 !important;
+        justify-content: space-between;
+        font-weight: bold;
+
+        span{
+            display: inline-block;
+        }
+    }
+}

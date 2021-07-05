@@ -14,6 +14,7 @@ class App extends React.Component {
             selectedGroup:'',
             classList:[],
             selectedClass:'',
+            classImg:'',
             skillList:[]
         }
     }
@@ -24,13 +25,15 @@ class App extends React.Component {
                 var group = prevState.groupList[0]
                 var classList = [...Object.keys(Data[group])]
                 var selectedClass = classList[0]
-                var skillList = Data[group][selectedClass].list
+                var classImg = Data[group][selectedClass].img
+                var skillList = [...Object.keys(Data[group][selectedClass].skill)]
 
                 return {
                     ...prevState,
                     group,
                     classList,
                     selectedClass,
+                    classImg,
                     skillList
                 }
             })
@@ -39,7 +42,7 @@ class App extends React.Component {
 
     render(){
         return <Store.Provider value={this.state}>
-            {this.state.skillList}
+            <img src={this.state.classImg}/>
         </Store.Provider>
     }
 }

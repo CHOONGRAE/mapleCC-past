@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import Store from './contexts/Store'
 import Data from './datas/data'
 import ClassAndSkill from './components/ClassAndSkill'
+import './scss/App.scss'
 
 class App extends React.Component {
     constructor(props) {

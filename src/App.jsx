@@ -2,10 +2,17 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Store from './contexts/Store'
 import Data from './datas/data'
+import ClassAndSkill from './components/ClassAndSkill'
 
 class App extends React.Component {
     constructor(props){
         super(props)
+
+        this._changePage = (e) => {
+            this.setState({
+                page: e.target.id
+            })
+        }
 
         this.state = {
             page:'class',
@@ -15,7 +22,9 @@ class App extends React.Component {
             classList:[],
             selectedClass:'',
             classImg:'',
-            skillList:[]
+            skillList:[],
+            skillData:{},
+            _changePage: this._changePage
         }
     }
 
@@ -27,6 +36,7 @@ class App extends React.Component {
                 var selectedClass = classList[0]
                 var classImg = Data[group][selectedClass].img
                 var skillList = [...Object.keys(Data[group][selectedClass].skill)]
+                var skillData = Data[group][selectedClass].skill
 
                 return {
                     ...prevState,
@@ -34,15 +44,19 @@ class App extends React.Component {
                     classList,
                     selectedClass,
                     classImg,
-                    skillList
+                    skillList,
+                    skillData
                 }
             })
         }
     }
 
     render(){
+        const img = (data) => {
+            return data ? data.img : null
+        }
         return <Store.Provider value={this.state}>
-            <img src={this.state.classImg}/>
+            <ClassAndSkill />
         </Store.Provider>
     }
 }

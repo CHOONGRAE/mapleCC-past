@@ -51,6 +51,21 @@ class App extends React.Component {
             })
         }
 
+        this._changeTargetSkill = (e) => {
+            this.setState(prevState => {
+                var {skillList,targetSkillList} = prevState
+                if(e.target.checked) targetSkillList.push(e.target.id)
+                else targetSkillList.splice(targetSkillList.indexOf(e.target.id))
+    
+                targetSkillList.sort((a,b) => skillList.indexOf(a) - skillList.indexOf(b))
+
+                return {
+                    ...prevState,
+                    targetSkillList
+                }
+            })
+        }
+
         this.state = {
             page: 'class',
             v_matrix: false,
@@ -61,9 +76,11 @@ class App extends React.Component {
             classImg: '',
             skillList: [],
             skillData: {},
+            targetSkillList: [],
             _changePage: this._changePage,
             _changeGroup: this._changeGroup,
-            _changeClass: this._changeClass
+            _changeClass: this._changeClass,
+            _changeTargetSkill: this._changeTargetSkill
         }
     }
 

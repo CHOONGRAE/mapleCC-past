@@ -1,6 +1,7 @@
 @use 'sass:math';
 
 @import './Class.scss';
+@import './Skill.scss';
 
 #ClassAndSkill{
     $rem: math.div(1rem, 16);

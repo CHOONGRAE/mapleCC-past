@@ -1,2 +1,21 @@
 @use 'sass:math';
 @import './CoreItem.scss';
+
+#CoreManagement {
+    $rem: math.div(1rem, 16);
+
+    margin: $rem*8 0;
+
+    .list {
+        box-sizing: border-box;
+        position: relative;
+        width: $rem*359;
+        height: $rem*304;
+        border: {
+            width: $rem*4;
+            style: solid;
+            color: #327891;
+            top: none;
+        };
+    }
+}

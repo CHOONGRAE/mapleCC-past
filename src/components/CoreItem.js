@@ -1,5 +1,6 @@
 import React from 'react'
 import Store from '../contexts/Store'
+import Frame from '../datas/iconFrame.frame3.png'
 
 export default class CoreItem extends React.Component {
     render = () => {
@@ -15,17 +16,21 @@ export default class CoreItem extends React.Component {
 
                 const innerHtml = () => {
                     var string = 'outline '
+
+                    const img = (data) => data ? data.img : null
+
                     if (v_matrix_mode == 'create') {
                         if (targetSkillList.includes(skillList[index])) string += 'selected'
                         return <div className={string}>
                             {skillList[index]
-                                ? <img src={skillData[skillList[index]].img} />
+                                ? <img src={img(skillData[skillList[index]])} />
                                 : null}
                         </div>
                     } else {
                         if (selectedCoreList.includes(coreList[index])) string += 'selected'
                         return <div className={string}>
-
+                            <img src={img(skillData[skillList[0]])} />
+                            <img src={Frame} />
                         </div>
                     }
                 }

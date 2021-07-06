@@ -1,5 +1,6 @@
 import React from 'react'
 import Store from '../contexts/Store'
+import CoreManagement from './CoreManagement'
 
 export default () => <Store.Consumer>
     {store => <div id='V_matrix'>
@@ -17,5 +18,6 @@ export default () => <Store.Consumer>
                 </label>
             </span>
         </div>
+        <CoreManagement />
     </div>}
 </Store.Consumer>

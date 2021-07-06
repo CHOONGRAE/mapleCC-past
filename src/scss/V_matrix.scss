@@ -1,5 +1,6 @@
 @use 'sass:math';
 
+@import './CoreManagement.scss';
 
 #V_matrix {
     $rem: math.div(1rem, 16);

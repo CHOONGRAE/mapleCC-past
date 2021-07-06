@@ -87,6 +87,8 @@ class App extends React.Component {
             skillList: [],
             skillData: {},
             targetSkillList: [],
+            coreList: [],
+            selectedCoreList: [],
             v_matrix_mode:'home',
             _changePage: this._changePage,
             _changeGroup: this._changeGroup,

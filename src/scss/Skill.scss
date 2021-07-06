@@ -45,7 +45,7 @@
 
     .skillList {
         display: grid;
-        grid-template-columns: calc(50% - 2px) calc(50% - 2px);
+        grid-template-columns: calc(50% - 3px) calc(50% - 3px);
         column-gap: 4px;
         width: calc(100% - 8px);
         margin: 4px auto 0;
@@ -53,7 +53,7 @@
 
         .skill {
             display: grid;
-            grid-template-columns: 40px calc(100% - 40px);
+            grid-template-columns: 40px calc(100% - 42px);
             grid-template-rows: 40px;
             column-gap: 2px;
 

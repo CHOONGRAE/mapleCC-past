@@ -1,0 +1,67 @@
+@use 'sass:math';
+
+@import './Class.scss';
+
+#ClassAndSkill{
+    $rem: math.div(1rem, 16);
+
+    & > .position{
+        margin:$rem*8 auto 0;
+        padding:$rem*8 0 0 0;
+        width:calc(100% - #{$rem} * 2);
+        height:$rem*46;
+        background: #f8f8f8;
+        border: {
+            bottom:$rem*5 solid orange;
+            top-left-radius:$rem*12;
+            top-right-radius:$rem*12;
+        };
+        box-sizing: border-box;
+        position: relative;
+
+        input{
+            display: none;
+
+            &:checked + label{
+                padding:$rem*6 $rem*10;
+                border: {
+                    color:orange;
+                };
+                background: linear-gradient(to top,orange,#ffa50033);
+                transition: all .2s ease;                
+            }
+        }
+
+        label{
+            cursor: pointer;
+            width: $rem*58;
+            padding:$rem*4 $rem*10;
+            box-sizing: border-box;
+            color:#fff;
+            font: {
+                size:$rem*18 !important;
+                weight:bold;
+            };
+            border: {
+                width:$rem*2;
+                color:#aaa;
+                style:solid;
+                top-left-radius:$rem*8;
+                top-right-radius:$rem*8;
+                bottom:none;
+            };
+            background: linear-gradient(to top,#aaa,#aaaaaa33);
+            transition: all .2s ease;
+            position: absolute;
+            bottom:0;
+
+            &:nth-child(2){
+                margin-left: $rem*4;
+            }
+
+            &:last-child{
+                margin-left:$rem*66;
+            }
+        }
+    }
+}

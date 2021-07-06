@@ -1,12 +1,14 @@
 @use "sass:math";
-@import "./Class.scss";
+@import "./ClassAndSkill.scss";
+@import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap');
 
 #mapleCC {
     $rem: math.div(1rem, 16) ;
 
+    font-family: 'Gamja Flower', cursive !important;
+
     width: 100%;
     max-width: $rem*600;
-    min-height: $rem*450;
     margin: 0 auto;
     background: #000c;
     border: {
@@ -22,6 +24,8 @@
         color: #ffa500dd;
         text-align: center;
         margin: $rem*8;
+        margin-bottom: 0;
+        font-size: $rem*24 !important;
     }
 
     .target {

@@ -74,9 +74,6 @@ class App extends React.Component {
     }
 
     render() {
-        const img = (data) => {
-            return data ? data.img : null
-        }
         return <div id='mapleCC'>
             <p className='title'>코어 배치 계산기</p>
             <Store.Provider value={this.state}>

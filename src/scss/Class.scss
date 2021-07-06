@@ -4,19 +4,18 @@
 #Class{
     $rem: math.div(1rem , 16);
     width: calc(100% - #{$rem} * 2);
-    margin: 0 auto;
+    height: $rem*375;
+    margin: 0 auto $rem*8;
+
+    background: {
+        repeat: no-repeat !important;
+        position: 50% $rem*40 !important;
+        size: auto $rem*335 !important;
+    };
 
     .select_class{
         width: 100%;
         max-width: $rem * 360;
-        margin: $rem*20 auto;
-    }
-
-    img{
-        display: block;
-        margin: auto;
-        width: calc(100% - #{$rem} * 40);
-        max-width: $rem*400;
-        margin-bottom: $rem*20;
+        margin: $rem*8 auto;
     }
 }

@@ -1,5 +1,7 @@
+@use 'sass:math';
+
 #Selector{
-    $rem:1rem/16;
+    $rem: math.div(1rem, 16);
     display: inline-block;
     width:50%;
     border: {

@@ -1,7 +1,8 @@
+@use 'sass:math';
 @import './ClassSelector.scss';
 
 #Class{
-    $rem:1rem/16;
+    $rem: math.div(1rem , 16);
     width: calc(100% - #{$rem} * 2);
     margin: 0 auto;
 

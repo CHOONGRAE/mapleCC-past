@@ -16,6 +16,4 @@ require('./categories/group.json').forEach(g => {
     })
 })
 
-console.log(data)
-
 export default data

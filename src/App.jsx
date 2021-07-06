@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import Store from './contexts/Store'
 import Data from './datas/data'
 import ClassAndSkill from './components/ClassAndSkill'
+import V_matrix from './components/V_matrix'
 import './scss/App.scss'
 
 class App extends React.Component {
@@ -66,6 +67,15 @@ class App extends React.Component {
             })
         }
 
+        this._v_matrix = () => {
+            this.setState(prevState => {
+                return {
+                    ...prevState,
+                    v_matrix:!prevState.v_matrix
+                }
+            })
+        }
+
         this.state = {
             page: 'class',
             v_matrix: false,
@@ -80,7 +90,8 @@ class App extends React.Component {
             _changePage: this._changePage,
             _changeGroup: this._changeGroup,
             _changeClass: this._changeClass,
-            _changeTargetSkill: this._changeTargetSkill
+            _changeTargetSkill: this._changeTargetSkill,
+            _v_matrix: this._v_matrix
         }
     }
 
@@ -94,7 +105,7 @@ class App extends React.Component {
         return <div id='mapleCC'>
             <p className='title'>코어 배치 계산기</p>
             <Store.Provider value={this.state}>
-                <ClassAndSkill />
+                {this.state.v_matrix ? <V_matrix /> : <ClassAndSkill />}
             </Store.Provider>
         </div>
     }

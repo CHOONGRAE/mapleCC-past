@@ -4,7 +4,7 @@ import Store from '../contexts/Store'
 export default () => <Store.Consumer>
     {store => <div id='Skill'>
         <div className='btn'>
-            <input type='button' id='Vmatrix'></input>
+            <input type='button' id='Vmatrix' onClick={store._v_matrix}></input>
             <label htmlFor='Vmatrix'>V 매트릭스</label>
         </div>
         <div className='skillList'>

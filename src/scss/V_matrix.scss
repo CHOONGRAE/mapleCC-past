@@ -1,1 +1,66 @@
 @use 'sass:math';
+
+
+#V_matrix {
+    $rem: math.div(1rem, 16);
+
+    width: calc(100% - #{$rem} * 2);
+    margin: $rem*8 auto 0;
+    background: radial-gradient(ellipse,#327891,#32577f,#29444d);
+    border-radius: $rem*12;
+
+    & > .title {
+        position: relative;
+
+        .title {
+            color: #fff;
+            font: {
+                size: $rem*20 !important;
+                weight: bold;
+            };
+            margin-left: $rem*24;
+        }
+
+        .mode {
+            font: {
+                size: $rem*18 !important;
+                weight: bold;
+            };
+            margin-left: $rem*8;
+        }
+
+        .close {
+            position: absolute;
+            top: 0;
+            right: $rem*4;
+
+            input {
+                display: none;
+            }
+
+            label {
+                cursor: pointer;
+                display: block;
+                width: $rem*26;
+                height: $rem*26;
+
+                svg {
+                    transform: rotate(45deg);
+                    circle {
+                        stroke: white;
+                        stroke-width: $rem*2;
+                        fill: none;
+                        stroke-linecap: round;
+                    }
+                    path {
+                        stroke: white;
+                        stroke-width: $rem*4;
+                        fill: none;
+                        stroke-linecap: round;
+                        stroke-linejoin: round;
+                    }
+                }
+            }
+        }
+    }
+}

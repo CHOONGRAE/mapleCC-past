@@ -78,7 +78,7 @@ class App extends React.Component {
 
         this.state = {
             page: 'class',
-            v_matrix: false,
+            v_matrix: true,
             groupList: [...Object.keys(Data)],
             selectedGroup: '',
             classList: [],
@@ -87,6 +87,7 @@ class App extends React.Component {
             skillList: [],
             skillData: {},
             targetSkillList: [],
+            v_matrix_mode:'home',
             _changePage: this._changePage,
             _changeGroup: this._changeGroup,
             _changeClass: this._changeClass,

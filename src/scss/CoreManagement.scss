@@ -6,16 +6,24 @@
 
     margin: $rem*8 0;
 
-    .list {
+    .listBorder {
         box-sizing: border-box;
-        position: relative;
-        width: $rem*359;
-        height: $rem*304;
+        width: $rem*366;
+        height: $rem*357;
         border: {
             width: $rem*4;
             style: solid;
-            color: #327891;
-            top: none;
+            color: transparent;
+            image: linear-gradient(180deg, transparent 10%, #327891, #32577f, #29444d);
+            image-width: $rem*4;
+            image-slice: 1;
         };
+        padding: $rem*4;
+
+        .list {
+            position: relative;
+            width: $rem*350;
+            height: $rem*341;
+        }
     }
 }

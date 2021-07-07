@@ -3,14 +3,14 @@
 #CoreItem {
     $rem: math.div(1rem, 16);
 
-    width: $rem*60;
-    height: $rem*52;
+    width: $rem*68;
+    height: $rem*59;
 
     position: absolute;
 
     background: {
         image: url('../datas/core.png');
-        size: $rem*60 $rem*52;
+        size: $rem*68 $rem*59;
         position: center;
         repeat: no-repeat;
     };
@@ -21,7 +21,7 @@
 
         background: {
             image: url('../datas/outline.png');
-            size: $rem*60 $rem*52;
+            size: $rem*68 $rem*59;
             position: center;
             repeat: no-repeat;
         };
@@ -41,92 +41,46 @@
         }
     }
 
-    &.r0 {        
-        &.c1 {
-            top: $rem*55/2;
-            left: $rem*97/2;
-        }
-        &.c3 {
-            top: $rem*55/2;
-            left: $rem*97*3/2;
-        }
-        &.c5 {
-            top: $rem*55/2;
-            left: $rem*97*5/2;
+    &.c1 {
+        left: $rem*94;
+    }
+    &.c2 {
+        left: $rem*94*2;
+    }
+    &.c3 {
+        left: $rem*94*3;
+    }
+    &.c4 {
+        left: math.div($rem*94, 2);
+    }
+    &.c5 {
+        left: math.div($rem*94*3, 2);
+    }
+    &.c6 {
+        left: math.div($rem*94*5, 2);
+    }
+
+    &.r0 {
+        &.c4, &.c5, &.c6 {
+            top: math.div($rem*94*1, 2);
         }
     }
     &.r1 {
-        top: $rem*55*1;
-        
-        &.c1 {
-            top: $rem*55*3/2;
-            left: $rem*97/2;
-        }
-        &.c3 {
-            top: $rem*55*3/2;
-            left: $rem*97*3/2;
-        }
-        &.c5 {
-            top: $rem*55*3/2;
-            left: $rem*97*5/2;
+        top: $rem*94;
+        &.c4, &.c5, &.c6 {
+            top: math.div($rem*94*3, 2);
         }
     }
     &.r2 {
-        top: $rem*55*2;
-        
-        &.c1 {
-            top: $rem*55*5/2;
-            left: $rem*97/2;
-        }
-        &.c3 {
-            top: $rem*55*5/2;
-            left: $rem*97*3/2;
-        }
-        &.c5 {
-            top: $rem*55*5/2;
-            left: $rem*97*5/2;
-        }
+        top: $rem*94*2;
+        &.c4, &.c5, &.c6 {
+            top: math.div($rem*94*5, 2);
+        }       
     }
     &.r3 {
-        top: $rem*55*3;
-        
-        &.c1 {
-            top: $rem*55*7/2;
-            left: $rem*97/2;
-        }
-        &.c3 {
-            top: $rem*55*7/2;
-            left: $rem*97*3/2;
-        }
-        &.c5 {
-            top: $rem*55*7/2;
-            left: $rem*97*5/2;
-        }
-    }
-    &.r4 {
-        top: $rem*55*4;
-        
-        &.c1 {
-            top: $rem*55*9/2;
-            left: $rem*97/2;
-        }
-        &.c3 {
-            top: $rem*55*9/2;
-            left: $rem*97*3/2;
-        }
-        &.c5 {
-            top: $rem*55*9/2;
-            left: $rem*97*5/2;
-        }
-    }
-    
-    &.c2 {
-        left: $rem*97*1;
-    }
-    &.c4 {
-        left: $rem*97*2;
-    }
-    &.c6 {
-        left: $rem*97*3;
+        top: $rem*94*3;
+        &.c4, &.c5, &.c6 {
+            top: math.div($rem*94*7, 2);
+        }     
     }
 }

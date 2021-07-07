@@ -1,6 +1,7 @@
 @use 'sass:math';
 @import './CoreItem.scss';
 @import './CoreInfo.scss';
+@import './CoreManagementModal.scss';
 
 #CoreManagement {
     $rem: math.div(1rem, 16);
@@ -8,6 +9,9 @@
     margin: $rem*8 0;
 
     .listBorder {
+        display: inline-block;
+        vertical-align: top;
+
         box-sizing: border-box;
         width: $rem*366;
         height: $rem*357;

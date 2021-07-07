@@ -2,5 +2,11 @@
 @import './V_matrixBtns.scss';
 
 #CoreInfo {
+    $rem: math.div(1rem, 16);
 
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - #{$rem}*366);
+    height: $rem*357;
+    position: relative;
 }

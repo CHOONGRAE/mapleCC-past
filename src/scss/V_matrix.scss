@@ -9,6 +9,7 @@
     margin: $rem*8 auto 0;
     background: radial-gradient(ellipse,#327891,#32577f,#29444d);
     border-radius: $rem*12;
+    position: relative;
 
     & > .title {
         position: relative;

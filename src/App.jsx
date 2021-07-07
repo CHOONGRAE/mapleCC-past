@@ -54,11 +54,11 @@ class App extends React.Component {
 
         this._changeTargetSkill = (e) => {
             this.setState(prevState => {
-                var {skillList,targetSkillList} = prevState
-                if(e.target.checked) targetSkillList.push(e.target.id)
+                var { skillList, targetSkillList } = prevState
+                if (e.target.checked) targetSkillList.push(e.target.id)
                 else targetSkillList.splice(targetSkillList.indexOf(e.target.id))
-    
-                targetSkillList.sort((a,b) => skillList.indexOf(a) - skillList.indexOf(b))
+
+                targetSkillList.sort((a, b) => skillList.indexOf(a) - skillList.indexOf(b))
 
                 return {
                     ...prevState,
@@ -71,7 +71,30 @@ class App extends React.Component {
             this.setState(prevState => {
                 return {
                     ...prevState,
-                    v_matrix:!prevState.v_matrix
+                    v_matrix: !prevState.v_matrix
+                }
+            })
+        }
+
+        this._batchimEnding = (s) => {
+            var lastLetter = s[s.length - 1]
+            var uni = lastLetter.carCodeAt(0)
+            return (uni - 44032) % 28 ? '와 ' : '과 '
+        }
+
+        this._changeMode = (e) => {
+            this.setState(prevState => {
+                var v_matrix_mode = e.target.id
+                var selectedCoreList = []
+                var selectedCore = ['', '', '']
+                var selectedSkillList = ['', '', '']
+
+                return {
+                    ...prevState,
+                    v_matrix_mode,
+                    selectedCoreList,
+                    selectedCore,
+                    selectedSkillList
                 }
             })
         }
@@ -87,14 +110,18 @@ class App extends React.Component {
             skillList: [],
             skillData: {},
             targetSkillList: [],
+            v_matrix_mode: 'home',
             coreList: [],
             selectedCoreList: [],
-            v_matrix_mode:'home',
+            selectedCore: ['', '', ''],
+            selectedSkillList: ['', '', ''],
             _changePage: this._changePage,
             _changeGroup: this._changeGroup,
             _changeClass: this._changeClass,
             _changeTargetSkill: this._changeTargetSkill,
-            _v_matrix: this._v_matrix
+            _v_matrix: this._v_matrix,
+            _batchimEnding: this._batchimEnding,
+            _changeMode: this._changeMode
         }
     }
 

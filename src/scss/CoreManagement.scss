@@ -1,5 +1,6 @@
 @use 'sass:math';
 @import './CoreItem.scss';
+@import './CoreInfo.scss';
 
 #CoreManagement {
     $rem: math.div(1rem, 16);

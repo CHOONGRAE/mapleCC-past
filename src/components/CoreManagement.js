@@ -1,6 +1,7 @@
 import React from 'react'
 import Store from '../contexts/Store'
 import CoreItem from './CoreItem'
+import CoreInfo from './CoreInfo'
 
 export default class CoreManagement extends React.Component {
     render = () => <Store.Consumer>

@@ -71,20 +71,36 @@ export default () => <Store.Consumer>
             </div>
         }
 
+        const cancel = () => {
+            if (v_matrix_mode == 'create') {
+                return <span className='skillCancel'>
+                    <svg width='26px' height='26px' viewBox='0 0 26 26'>
+                        <circle cx='13' cy='13' r='10' />
+                        <path d='M13,8 L13,18' stroke='#fff' />
+                        <path d='M8,13 L18,13' stroke='#fff' />
+                    </svg>
+                </span>
+            }
+        }
+
         return <div id='CoreInfo'>
             <div className='text'>
                 <p className='coreName'>{coreName()}</p>
                 <p className='position'>
                     <span className='class'>&nbsp;메인 스킬&nbsp;</span>
+                    {cancel()}
                 </p>
+                {}
                 <p>
 
                 </p>
                 <p className='position'>
                     <span className='class'>&nbsp;서브 스킬&nbsp;</span>
+                    {cancel()}
                 </p>
                 <p className='position'>
                     <span className='class'>&nbsp;서브 스킬&nbsp;</span>
+                    {cancel()}
                 </p>
             </div>
             <V_matrixBtns />

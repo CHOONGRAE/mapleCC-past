@@ -8,12 +8,12 @@
 
         &:checked + .background {
             z-index: 1;
-            transition: all .2s ease;
+            transition: all .5s ease;
 
             .modal {
                 width: 80%;
                 min-height: $rem*250;
-                transition: all .2s ease;
+                transition: all .5s ease;
             }
         }
     }
@@ -37,7 +37,7 @@
             border-radius: $rem*16;
             border: $rem*4 solid #327891;
             box-sizing: border-box;
-            transition: all .2s ease;
+            transition: all .5s ease;
 
             position: absolute;
             top: 50%;

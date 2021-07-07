@@ -9,4 +9,29 @@
     width: calc(100% - #{$rem}*366);
     height: $rem*357;
     position: relative;
+
+    .text {
+        margin: $rem*4;
+        width: calc(100% - #{$rem} *8);
+
+        .coreName {
+            margin: 0;
+            width: 100%;
+            height: $rem*44;
+        }
+
+        .position {
+            margin-bottom: 0;
+
+            .class {
+                background: #000;
+                color: #fff;
+                font: {
+                    size: $rem*14 !important;
+                    weight: bold;
+                };
+                padding: $rem*4;
+            }
+        }
+    }
 }

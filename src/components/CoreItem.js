@@ -37,7 +37,7 @@ export default class CoreItem extends React.Component {
                         if(v_matrix_mode == 'remove') func = _select_removeCore
                         return target
                             ? <div className={string} onClick={() => func(target)}>
-                                <img src={img(skillData[coreList[index][0]])} />
+                                <img src={img(skillData[target[0]])} />
                                 <img src={Frame} />
                             </div>
                             : null

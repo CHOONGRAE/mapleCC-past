@@ -62,13 +62,20 @@ export default () => <Store.Consumer>
             }
 
             const skillName = () => {
+                var className = (name) =>{
+                    var result = 'limit '
+                    if(targetSkillList.includes(name)) result+='target'
+                    return result
+                }
+                var name = selectedCore[index]
                 if(v_matrix_mode == 'create'){
+                    name = selectedSkillList[index]
                     return <p className='skillName'>
-                        {selectedSkillList[index]} 강화
+                        <span className={className(name)}>{name}</span> 강화
                     </p>                    
                 }
                 return <p className='skillName'>
-                    {selectedCore[index]} 강화
+                    <span className={className(name)}>{name}</span> 강화
                 </p>  
             }
 

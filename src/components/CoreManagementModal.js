@@ -3,7 +3,10 @@ import Store from '../contexts/Store'
 
 const Add = () => <Store.Consumer>
     {store => {
-        const { selectedSkillList } = store
+        const {
+            selectedSkillList,
+            _createCore
+        } = store
 
         const message = () => {
             if (selectedSkillList.includes('')) {
@@ -15,7 +18,7 @@ const Add = () => <Store.Consumer>
                 return <div className='message'>
                     {selectedSkillList.map((v, i) => {
                         var position = (i == 0 ? '메인 ' : '서브 ') + '스킬'
-                        return <p className='addList'>
+                        return <p key={i} className='addList'>
                             <span className='position'>&nbsp;{position}&nbsp;</span>
                             <span className='name'>{v}</span>
                         </p>
@@ -32,7 +35,7 @@ const Add = () => <Store.Consumer>
             } else {
                 return <div className='btns'>
                     <label htmlFor='Add'>취 소</label>
-                    <label htmlFor='Add' onClick=''>확 인</label>
+                    <label htmlFor='Add' onClick={() => _createCore()}>확 인</label>
                 </div>
             }
         }

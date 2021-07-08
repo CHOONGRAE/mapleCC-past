@@ -10,9 +10,10 @@ export default class CoreItem extends React.Component {
                 const { v_matrix_mode,
                     skillList,
                     skillData,
-                    targetSkillList,
                     coreList,
-                    selectedCoreList } = store
+                    selectedCoreList,
+                    selectedSkillList,
+                    _select_createCore } = store
 
                 const innerHtml = () => {
                     var string = 'outline '
@@ -20,18 +21,20 @@ export default class CoreItem extends React.Component {
                     const img = (data) => data ? data.img : null
 
                     if (v_matrix_mode == 'create') {
-                        if (targetSkillList.includes(skillList[index])) string += 'selected'
-                        return <div className={string}>
-                            {skillList[index]
-                                ? <img src={img(skillData[skillList[index]])} />
-                                : null}
-                        </div>
+                        if (selectedSkillList.includes(skillList[index])) string += 'selected'
+                        return skillList[index]
+                            ? <div className={string} onClick={() => _select_createCore(skillList[index])}>
+                                <img src={img(skillData[skillList[index]])} />
+                            </div>
+                            : null
                     } else {
                         if (selectedCoreList.includes(coreList[index])) string += 'selected'
-                        return <div className={string}>
-                            <img src={img(skillData[skillList[0]])} />
-                            <img src={Frame} />
-                        </div>
+                        return coreList[index]
+                            ? <div className={string}>
+                                <img src={img(skillData[coreList[index][0]])} />
+                                <img src={Frame} />
+                            </div>
+                            : null
                     }
                 }
 

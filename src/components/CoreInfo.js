@@ -11,45 +11,34 @@ export default () => <Store.Consumer>
             selectedCoreList,
             selectedCore,
             selectedSkillList,
-            _batchimEnding
+            _batchimEnding,
+            _cancel_createCore
         } = store
 
         const coreName = () => {
-            var string = ''
-            if(v_matrix_mode == 'create'){
-                for(var i in selectedSkillList){
-                    var s = selectedSkillList[i]
-                    if(s != ''){
-                        switch(i){
-                            case 0:
-                                string += skillData[s].nick + _batchimEnding(skillData[s].nick)
-                                break
-                            case 1:
-                                string += skillData[s].nick + "의 "
-                                break
-                            case 2:
-                                string += s
-                                break
-                        }
-                    }
-                }
-            } else {
-                var s = selectedCore[i]
+            var string = []
+            var list
+            if(v_matrix_mode == 'create') list = selectedSkillList
+            else list = selectedCore
+
+            for(var i in list){
+                var s = list[i]
                 if(s != ''){
                     switch(i){
-                        case 0:
-                            string += skillData[s].nick + _batchimEnding(skillData[s].nick)
+                        case '0':
+                            string[2] = s
                             break
-                        case 1:
-                            string += skillData[s].nick + "의 "
+                        case '1':
+                            string[0] = skillData[s].nick + _batchimEnding(skillData[s].nick)
                             break
-                        case 2:
-                            string += s
+                        case '2':
+                            string[1] = skillData[s].nick + "의 "
                             break
                     }
                 }
             }
-            return string
+
+            return string.join('')
         }
 
         const skill = (position,index) => {
@@ -57,7 +46,7 @@ export default () => <Store.Consumer>
                 if (v_matrix_mode == 'create') {
                     return <p className='position'>
                         <span className='class'>&nbsp;{position + ' 스킬'}&nbsp;</span>
-                        <input type='button' id={'cancel' + index} onClick='' />
+                        <input type='button' id={'cancel' + index} onClick={() => _cancel_createCore(index)} />
                         <label htmlFor={'cancel' + index}>
                             <svg width='26px' height='26px' viewBox='0 0 26 26'>
                                 <circle cx='13' cy='13' r='10' />

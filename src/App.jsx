@@ -78,8 +78,8 @@ class App extends React.Component {
 
         this._batchimEnding = (s) => {
             var lastLetter = s[s.length - 1]
-            var uni = lastLetter.carCodeAt(0)
-            return (uni - 44032) % 28 ? '와 ' : '과 '
+            var uni = lastLetter.charCodeAt(0)
+            return (uni - 44032) % 28 ? '과 ' : '와 '
         }
 
         this._changeMode = (e) => {
@@ -97,6 +97,66 @@ class App extends React.Component {
                     selectedSkillList
                 }
             })
+        }
+
+        this._select_createCore = (target) => {
+            this.setState(prevState => {
+                var { selectedSkillList } = prevState
+                var nullIndex = selectedSkillList.findIndex(v => v=='')
+                if(nullIndex == -1) nullIndex = 2
+                selectedSkillList[nullIndex] = target
+
+                return {
+                    ...prevState,
+                    selectedSkillList
+                }
+            })
+        }
+
+        this._cancel_createCore = (index) => {
+            this.setState(prevState => {
+                var { selectedSkillList } = prevState
+                selectedSkillList[index] = ''
+                
+                return {
+                    ...prevState,
+                    selectedSkillList
+                }
+            })
+        }
+
+        this._existenceCheck = (target,list = this.state.coreList) => {
+            for(var core of list){
+                if(JSON.stringify(core) == JSON.stringify(target)) return true
+            }
+            return false
+        }
+
+        this._sortCoreList = (coreList) => {
+            var { skillList } = this.state
+            return coreList.sort((a,b) => {
+                if(a[0] == b[0]){
+                    if(a[1] == b[1]) return skillList.indexOf(a[2]) - skillList.indexOf(b[2])
+                    return skillList.indexOf(a[1]) - skillList.indexOf(b[1]) 
+                }
+                return skillList.indexOf(a[0]) - skillList.indexOf(b[0])
+            })
+        }
+
+        this._createCore = () => {
+            setTimeout(() => {
+                this.setState(prevState => {
+                    var { coreList, selectedSkillList } = this.state
+                    if(!this._existenceCheck(selectedSkillList)) coreList = this._sortCoreList([...coreList,selectedSkillList])
+                    selectedSkillList = ['', '', '']
+    
+                    return {
+                        ...prevState,
+                        coreList,
+                        selectedSkillList
+                    }
+                })                
+            }, 100);
         }
 
         this.state = {
@@ -121,7 +181,10 @@ class App extends React.Component {
             _changeTargetSkill: this._changeTargetSkill,
             _v_matrix: this._v_matrix,
             _batchimEnding: this._batchimEnding,
-            _changeMode: this._changeMode
+            _changeMode: this._changeMode,
+            _select_createCore: this._select_createCore,
+            _cancel_createCore: this._cancel_createCore,
+            _createCore: this._createCore
         }
     }
 

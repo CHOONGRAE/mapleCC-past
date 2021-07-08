@@ -25,7 +25,7 @@ export default class CoreManagement extends React.Component {
                 <div className='listBorder'>
                     <div className='list'>
                         {[...Array(25).keys()].map(v =>
-                            <CoreItem key={v} className={`r${parseInt(v / 7)} c${v % 7}`} />
+                            <CoreItem key={v} className={`r${parseInt(v / 7)} c${v % 7}`} index={v} />
                         )}
                     </div>
                 </div>

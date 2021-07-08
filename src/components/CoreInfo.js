@@ -52,56 +52,49 @@ export default () => <Store.Consumer>
             return string
         }
 
-        const skillName = (position,index) => {
+        const skill = (position,index) => {
             const title = () => {
-                if(v_matrix_mode == 'create'){
+                if (v_matrix_mode == 'create') {
                     return <p className='position'>
-                    <span className='class'>&nbsp;{position}&nbsp;</span>
-                    <input type='button' id={'cancel'+index} onClick='' />
-                    <label htmlFor={'cancel'+index}></label>
-                </p>
+                        <span className='class'>&nbsp;{position + ' 스킬'}&nbsp;</span>
+                        <input type='button' id={'cancel' + index} onClick='' />
+                        <label htmlFor={'cancel' + index}>
+                            <svg width='26px' height='26px' viewBox='0 0 26 26'>
+                                <circle cx='13' cy='13' r='10' />
+                                <path d='M13,8 L13,18' stroke='#fff' />
+                                <path d='M8,13 L18,13' stroke='#fff' />
+                            </svg>취소
+                        </label>
+                    </p>
                 }
                 return <p className='position'>
-                    <span className='class'>&nbsp;{position}&nbsp;</span>
+                    <span className='class'>&nbsp;{position + ' 스킬'}&nbsp;</span>
                 </p>
+            }
+
+            const skillName = () => {
+                if(v_matrix_mode == 'create'){
+                    return <p className='skillName'>
+                        {selectedSkillList[index]} 강화
+                    </p>                    
+                }
+                return <p className='skillName'>
+                    {selectedCore[index]} 강화
+                </p>  
             }
 
             return <div className='skillInfo'>
                 {title()}
+                {skillName()}
             </div>
-        }
-
-        const cancel = () => {
-            if (v_matrix_mode == 'create') {
-                return <span className='skillCancel'>
-                    <svg width='26px' height='26px' viewBox='0 0 26 26'>
-                        <circle cx='13' cy='13' r='10' />
-                        <path d='M13,8 L13,18' stroke='#fff' />
-                        <path d='M8,13 L18,13' stroke='#fff' />
-                    </svg>
-                </span>
-            }
         }
 
         return <div id='CoreInfo'>
             <div className='text'>
                 <p className='coreName'>{coreName()}</p>
-                <p className='position'>
-                    <span className='class'>&nbsp;메인 스킬&nbsp;</span>
-                    {cancel()}
-                </p>
-                {}
-                <p>
-
-                </p>
-                <p className='position'>
-                    <span className='class'>&nbsp;서브 스킬&nbsp;</span>
-                    {cancel()}
-                </p>
-                <p className='position'>
-                    <span className='class'>&nbsp;서브 스킬&nbsp;</span>
-                    {cancel()}
-                </p>
+                {skill('메인',0)}
+                {skill('서브',1)}
+                {skill('서브',2)}
             </div>
             <V_matrixBtns />
         </div>

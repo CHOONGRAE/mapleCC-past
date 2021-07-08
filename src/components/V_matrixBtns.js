@@ -14,8 +14,8 @@ export default () => <Store.Consumer>
                 <label htmlFor='remove'>코 어 삭 제</label>
                 <input type='button' id='create' onClick={_changeMode} />
                 <label htmlFor='create'>코 어 추 가</label>
-                <input type='button' id='calc' onClick={_changeMode} />
-                <label htmlFor='calc'>계 산 기</label>
+                <input type='button' id='calculator' onClick={_changeMode} />
+                <label htmlFor='calculator'>계 산 기</label>
             </div>
             case 'remove': return <div id='V_matrixBtns'>
                 <label htmlFor='Remove'>삭 제</label>

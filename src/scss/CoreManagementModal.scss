@@ -45,19 +45,47 @@
             transform: translate(-50%,-50%);
 
             .message {
-                width: 90%;
-                text-align: center;
+                width: 80%;
                 position: absolute;
                 top: 40%;
                 left: 50%;
                 transform: translate(-50%,-50%);
 
+                text-align: center;
+
                 p {
+                    margin: $rem*8 0;
                     color: white;
                     font: {
                         size: $rem*20 !important;
                         weight: bold;
                     };
+
+                    &.addList {
+                        text-align: left;
+                        margin: $rem*4 0;
+
+                        span {
+                            vertical-align: middle;
+                        }
+
+                        .position {
+                            font: {
+                                size: $rem*16 !important;
+                                weight: bold;
+                            };
+                            padding: $rem*2;
+                            margin-right: $rem*8;
+                            border: $rem solid white;
+                            border-radius: $rem*4;
+                        }
+
+                        .name {
+                            display: inline-block;
+                            width: calc(100% - #{$rem} * 80);
+                            height: $rem*23;
+                        }
+                    }
                 }
             }
 

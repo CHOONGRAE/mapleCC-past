@@ -4,6 +4,7 @@ import Store from '../contexts/Store'
 const Add = () => <Store.Consumer>
     {store => {
         const {
+            targetSkillList,
             selectedSkillList,
             _createCore
         } = store
@@ -15,14 +16,20 @@ const Add = () => <Store.Consumer>
                     <p>스킬을 확인해 주세요.</p>
                 </div>
             } else {
+                var className = (name) => {
+                    var result = 'name '
+                    if (targetSkillList.includes(name)) result += 'target'
+                    return result
+                }
                 return <div className='message'>
                     {selectedSkillList.map((v, i) => {
                         var position = (i == 0 ? '메인 ' : '서브 ') + '스킬'
                         return <p key={i} className='addList'>
                             <span className='position'>&nbsp;{position}&nbsp;</span>
-                            <span className='name'>{v}</span>
+                            <span className={className(v)} >{v}</span>
                         </p>
                     })}
+                    <p>코어를 추가 하시겠습니까?</p>
                 </div>
             }
         }
@@ -62,7 +69,7 @@ const Remove = () => <Store.Consumer>
         const message = () => {
             if (selectedCoreList.length) {
                 return <div className='message'>
-                    <p>선택한 코어 <span>{selectedCoreList.length}</span> 개</p>
+                    <p>선택한 코어 <span className='target'>{selectedCoreList.length}</span> 개</p>
                     <p>삭제 하시겠습니까?</p>
                 </div>
             } else {

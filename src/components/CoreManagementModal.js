@@ -54,7 +54,10 @@ const Add = () => <Store.Consumer>
 
 const Remove = () => <Store.Consumer>
     {store => {
-        const { selectedCoreList } = store
+        const {
+            selectedCoreList,
+            _removeCore
+        } = store
 
         const message = () => {
             if (selectedCoreList.length) {
@@ -73,7 +76,7 @@ const Remove = () => <Store.Consumer>
             if (selectedCoreList.length) {
                 return <div className='btns'>
                     <label htmlFor='Remove'>취 소</label>
-                    <label htmlFor='Remove' onClick=''>확 인</label>
+                    <label htmlFor='Remove' onClick={() => _removeCore()}>확 인</label>
                 </div>
             } else {
                 return <div className='btns'>
@@ -95,20 +98,23 @@ const Remove = () => <Store.Consumer>
 </Store.Consumer>
 
 const RemoveAll = () => <Store.Consumer>
-    {store => <div id='RemoveAllModal'>
-        <input type='checkbox' id='RemoveAll'></input>
-        <div className='background'>
-            <div className='modal'>
-                <div className='message'>
-                    <p>전체 코어를 삭제 하시겠습니까?</p>
-                </div>
-                <div className='btns'>
-                    <label htmlFor='RemoveAll'>취 소</label>
-                    <label htmlFor='RemoveAll' onClick=''>확 인</label>
+    {store => {
+        const { _removeAllCore } = store
+        return <div id='RemoveAllModal'>
+            <input type='checkbox' id='RemoveAll'></input>
+            <div className='background'>
+                <div className='modal'>
+                    <div className='message'>
+                        <p>전체 코어를 삭제 하시겠습니까?</p>
+                    </div>
+                    <div className='btns'>
+                        <label htmlFor='RemoveAll'>취 소</label>
+                        <label htmlFor='RemoveAll' onClick={() => _removeAllCore()}>확 인</label>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>}
+    }}
 </Store.Consumer>
 
 export { Add, Remove, RemoveAll }

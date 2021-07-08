@@ -199,6 +199,37 @@ class App extends React.Component {
             })
         }
 
+        this._removeCore = () => {
+            setTimeout(() => {
+                this.setState(prevState => {
+                    var {
+                        coreList,
+                        selectedCoreList,
+                        selectedCore
+                    } = prevState
+
+                    coreList = coreList.filter(v => !this._existenceCheck(v, selectedCoreList))
+                    selectedCoreList = []
+                    selectedCore = ['', '', '']
+
+                    return {
+                        ...prevState,
+                        coreList,
+                        selectedCoreList,
+                        selectedCore
+                    }
+                })
+            }, 100);
+        }
+
+        this._removeAllCore = () => {
+            this.setState({
+                coreList: [],
+                selectedCoreList: [],
+                selectedCore: ['', '', '']
+            })
+        }
+
         this.state = {
             page: 'class',
             v_matrix: true,
@@ -226,7 +257,9 @@ class App extends React.Component {
             _cancel_createCore: this._cancel_createCore,
             _createCore: this._createCore,
             _select_homeCore: this._select_homeCore,
-            _select_removeCore: this._select_removeCore
+            _select_removeCore: this._select_removeCore,
+            _removeCore: this._removeCore,
+            _removeAllCore: this._removeAllCore
         }
     }
 

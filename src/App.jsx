@@ -56,7 +56,7 @@ class App extends React.Component {
             this.setState(prevState => {
                 var { skillList, targetSkillList } = prevState
                 if (e.target.checked) targetSkillList.push(e.target.id)
-                else targetSkillList.splice(targetSkillList.indexOf(e.target.id))
+                else targetSkillList.splice(targetSkillList.indexOf(e.target.id), 1)
 
                 targetSkillList.sort((a, b) => skillList.indexOf(a) - skillList.indexOf(b))
 
@@ -230,6 +230,58 @@ class App extends React.Component {
             })
         }
 
+        this._changeSuperposition = () => {
+            this.setState(prevState => {
+                var { superposition } = prevState
+                superposition++
+                if(superposition > 4) superposition -= 3
+
+                return {
+                    ...prevState,
+                    superposition
+                }
+            })
+        }
+        
+        this._changePlusCores = () => {
+            this.setState(prevState => {
+                var { plusCores } = prevState
+                plusCores++
+                if(plusCores > 2) plusCores -= 3
+
+                return {
+                    ...prevState,
+                    plusCores
+                }
+            })
+        }
+
+        this._checkMinCore = () => {
+            this.setState(prevState => {
+                var {
+                    superposition,
+                    targetSkillList,
+                    minCores
+                } = prevState
+
+                var targetCnt = targetSkillList.length
+
+                if(targetCnt > 0){
+                    if(superposition === 4 && targetCnt > 2)
+                    minCores = targetCnt + Math.floor(targetCnt / 2) + (targetCnt % 2 ? 0 : 1)
+                    if(superposition > targetCnt) minCores = superposition
+                } else {
+                    var required = superposition * targetCnt
+                    minCores = Math.floor(required / 3) + (required % 3 ? 0 : 1)
+                }
+
+                return {
+                    ...prevState,
+                    minCores
+                }
+            })
+        }
+
         this.state = {
             page: 'class',
             v_matrix: true,
@@ -249,6 +301,7 @@ class App extends React.Component {
             superposition: 3,
             minCores: 0,
             plusCores: 0,
+            calcStatus: 0,
             _changePage: this._changePage,
             _changeGroup: this._changeGroup,
             _changeClass: this._changeClass,
@@ -262,7 +315,10 @@ class App extends React.Component {
             _select_homeCore: this._select_homeCore,
             _select_removeCore: this._select_removeCore,
             _removeCore: this._removeCore,
-            _removeAllCore: this._removeAllCore
+            _removeAllCore: this._removeAllCore,
+            _changeSuperposition: this._changeSuperposition,
+            _changePlusCores: this._changePlusCores,
+            _checkMinCore: this._checkMinCore
         }
     }
 

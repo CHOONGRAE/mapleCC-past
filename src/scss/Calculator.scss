@@ -4,7 +4,8 @@
     $rem: math.div(1rem, 16);
 
     width: calc(100% - #{$rem} * 8);
-    margin: $rem*8 auto;
+    margin: 0 auto;
+    padding: $rem*8 0;
 
     .inline {
         display: inline-block;

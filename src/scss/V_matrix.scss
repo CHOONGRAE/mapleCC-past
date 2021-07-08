@@ -14,6 +14,8 @@
     & > .title {
         position: relative;
 
+        padding: $rem*8 0 0;
+
         .title {
             color: #fff;
             font: {
@@ -33,8 +35,8 @@
 
         .close {
             position: absolute;
-            top: 0;
-            right: $rem*4;
+            top: $rem*8;
+            right: $rem*8;
 
             input {
                 display: none;

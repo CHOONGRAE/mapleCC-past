@@ -34,15 +34,19 @@
             margin-left: $rem*8;
 
             &.home {
-                color: #000c;
+                color: #333c;
             }
 
             &.create {
-                color: #5f5c;
+                color: #3f3c;
             }
 
             &.remove {
-                color: #f55c;
+                color: #f33c;
+            }
+
+            &.calculator {
+                color: #33fc;
             }
         }
 

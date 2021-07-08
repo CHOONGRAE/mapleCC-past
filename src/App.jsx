@@ -62,7 +62,8 @@ class App extends React.Component {
 
                 return {
                     ...prevState,
-                    targetSkillList
+                    targetSkillList,
+                    subSkillList: []
                 }
             })
         }
@@ -239,7 +240,8 @@ class App extends React.Component {
                 return {
                     ...prevState,
                     superposition,
-                    plusCores: 0
+                    plusCores: 0,
+                    subSkillList: []
                 }
             })
             this._checkMinCore()
@@ -253,7 +255,8 @@ class App extends React.Component {
 
                 return {
                     ...prevState,
-                    plusCores
+                    plusCores,
+                    subSkillList: []
                 }
             })
         }
@@ -286,6 +289,42 @@ class App extends React.Component {
             })
         }
 
+        this._changeSubSkill = (e) => {
+            this.setState(prevState => {
+                var {
+                    skillList,
+                    targetSkillList,
+                    superposition,
+                    minCores,
+                    plusCores,
+                    subSkillList
+                } = prevState
+                if (e.target.checked) subSkillList.push(e.target.id)
+                else subSkillList.splice(subSkillList.indexOf(e.target.id), 1)
+
+                subSkillList.sort((a, b) => skillList.indexOf(a) - skillList.indexOf(b))
+
+                var possible = (minCores + plusCores) * 3
+                var required = targetSkillList.length * superposition
+    
+                if (subSkillList.length >= possible - required)
+                    document.querySelectorAll('.item input').forEach(v => {
+                            console.log(v.id)
+                            if (!subSkillList.includes(v.id))
+                                v.toggleAttribute('disabled')
+                        })
+                else document.querySelectorAll('.item input').forEach(v => {
+                        if (v.disabled)
+                            v.toggleAttribute('disabled')
+                    })
+
+                return {
+                    ...prevState,
+                    subSkillList
+                }
+            })
+        }
+
         this.state = {
             page: 'class',
             v_matrix: true,
@@ -305,6 +344,7 @@ class App extends React.Component {
             superposition: 3,
             minCores: 0,
             plusCores: 0,
+            subSkillList: [],
             calcStatus: 0,
             _changePage: this._changePage,
             _changeGroup: this._changeGroup,
@@ -322,7 +362,8 @@ class App extends React.Component {
             _removeAllCore: this._removeAllCore,
             _changeSuperposition: this._changeSuperposition,
             _changePlusCores: this._changePlusCores,
-            _checkMinCore: this._checkMinCore
+            _checkMinCore: this._checkMinCore,
+            _changeSubSkill: this._changeSubSkill
         }
     }
 

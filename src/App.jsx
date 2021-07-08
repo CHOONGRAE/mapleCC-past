@@ -238,9 +238,11 @@ class App extends React.Component {
 
                 return {
                     ...prevState,
-                    superposition
+                    superposition,
+                    plusCores: 0
                 }
             })
+            this._checkMinCore()
         }
         
         this._changePlusCores = () => {
@@ -265,15 +267,17 @@ class App extends React.Component {
                 } = prevState
 
                 var targetCnt = targetSkillList.length
+                minCores = 0
 
                 if(targetCnt > 0){
                     if(superposition === 4 && targetCnt > 2)
-                    minCores = targetCnt + Math.floor(targetCnt / 2) + (targetCnt % 2 ? 0 : 1)
-                    if(superposition > targetCnt) minCores = superposition
-                } else {
-                    var required = superposition * targetCnt
-                    minCores = Math.floor(required / 3) + (required % 3 ? 0 : 1)
-                }
+                    minCores = targetCnt + Math.floor(targetCnt / 2) + (targetCnt % 2 ? 1 : 0)
+                    else if(superposition > targetCnt) minCores = superposition
+                    else {
+                        var required = superposition * targetCnt
+                        minCores = Math.floor(required / 3) + (required % 3 ? 1 : 0)
+                    }
+                } 
 
                 return {
                     ...prevState,

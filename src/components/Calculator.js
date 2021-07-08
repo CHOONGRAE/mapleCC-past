@@ -2,6 +2,13 @@ import React from 'react'
 import Store from '../contexts/Store'
 
 export default class Calculator extends React.Component {
+
+    static contextType = Store
+
+    componentDidMount = () => {
+        this.context._checkMinCore()
+    }
+
     render = () => <Store.Consumer>
         {store => {
             const {
@@ -12,8 +19,13 @@ export default class Calculator extends React.Component {
                 superposition,
                 minCores,
                 plusCores,
+                calcStatus,
                 _changeMode,
+                _changeSuperposition,
+                _changePlusCores
             } = store
+
+            const status = ['계 산 시 작','계 산 중 ...(Click:취소)','계 산 완 료']
 
             const img = (data) => data ? data.img : null
 
@@ -42,10 +54,10 @@ export default class Calculator extends React.Component {
                         <span className='target'>Core List</span> 를&nbsp;
                         <span className='target'>Target List</span> 들이
                     </p>
-                    <div className='inline'>&nbsp;{superposition}&nbsp;중 첩&nbsp;</div>
-                    <div className='inline'>
-                        &nbsp;{minCores + plusCores}&nbsp;코 어&nbsp;
-                        ( 최 소{plusCores == 0 ? null : ` + ${plusCores}`} )&nbsp;
+                    <div className='inline' onClick={_changeSuperposition}>&nbsp;{superposition}&nbsp;중 첩&nbsp;</div>
+                    <div className='inline' onClick={_changePlusCores}>
+                        &nbsp;{minCores + plusCores}&nbsp;
+                        ( 최 소{plusCores == 0 ? null : ` + ${plusCores}`} )&nbsp;코 어&nbsp;
                         </div>
                     <p className='inline'>
                         &nbsp;가 되도록 계산합니다.
@@ -69,7 +81,7 @@ export default class Calculator extends React.Component {
                     <input type='button' id='home' onClick={_changeMode}/>
                     <label htmlFor='home'>돌 아 가 기</label>
                     <input type='button' id='calc' />
-                    <label htmlFor='calc'>계 산 시 작</label>
+                    <label htmlFor='calc'>{status[calcStatus]}</label>
                 </div>
             </div>
         }}

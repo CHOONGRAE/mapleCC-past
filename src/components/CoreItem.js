@@ -1,6 +1,5 @@
 import React from 'react'
 import Store from '../contexts/Store'
-import Frame from '../datas/iconFrame.frame3.png'
 
 export default class CoreItem extends React.Component {
     render = () => {
@@ -37,8 +36,10 @@ export default class CoreItem extends React.Component {
                         if(v_matrix_mode == 'remove') func = _select_removeCore
                         return target
                             ? <div className={string} onClick={() => func(target)}>
+                                <img src={img(skillData[target[2]])} />
                                 <img src={img(skillData[target[0]])} />
-                                <img src={Frame} />
+                                <img src={img(skillData[target[1]])} />
+                                <img src={require('../datas/iconFrame.frame3.png').default} />
                             </div>
                             : null
                     }

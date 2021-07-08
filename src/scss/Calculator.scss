@@ -32,15 +32,20 @@
             min-height: $rem*38;
 
             .coreImg {
+                display: inline-block;
                 position: relative;
 
-                width: $rem*32;
-                height: $rem*38;
+                width: $rem*34;
+                height: $rem*40;
 
                 img {
                     position: absolute;
                 }
             }
+        }
+
+        img {
+            margin: $rem;
         }
     }
 

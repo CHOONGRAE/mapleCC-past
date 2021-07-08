@@ -27,7 +27,10 @@
         };
 
         &.selected {
-            background-image: url('../datas/outline_select.png');
+            background: {
+                image: url('../datas/outline_select.png');
+                size: $rem*72 $rem*63;
+            }
         }
 
         & > img, & > div {

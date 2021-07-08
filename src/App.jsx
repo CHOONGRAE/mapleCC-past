@@ -100,9 +100,9 @@ class App extends React.Component {
         }
 
         this._select_createCore = (target) => {
-            this.setState(prevState => {
-                var { selectedSkillList } = prevState
-                var nullIndex = selectedSkillList.findIndex(v => v=='')
+            var { selectedSkillList } = this.state
+            if(!selectedSkillList.includes(target)) this.setState(prevState => {
+                var nullIndex = selectedSkillList.indexOf('')
                 if(nullIndex == -1) nullIndex = 2
                 selectedSkillList[nullIndex] = target
 

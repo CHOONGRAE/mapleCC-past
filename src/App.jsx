@@ -159,6 +159,46 @@ class App extends React.Component {
             }, 100);
         }
 
+        this._select_homeCore = (target) => {
+            this.setState(prevState => {
+                var {selectedCoreList, selectedCore} = prevState
+
+                if(this._existenceCheck(target,selectedCoreList)){
+                    selectedCoreList = []
+                    selectedCore = ['', '', '']
+                } else {
+                    selectedCoreList = [target]
+                    selectedCore = target                   
+                }
+
+                return {
+                    ...prevState,
+                    selectedCoreList,
+                    selectedCore
+                }
+            })
+        }
+
+        this._select_removeCore = (target) => {
+            this.setState(prevState => {
+                var {selectedCoreList, selectedCore} = prevState
+
+                if(this._existenceCheck(target,selectedCoreList)){
+                    selectedCoreList = selectedCoreList.filter(v => JSON.stringify(v) != JSON.stringify(target))
+                    selectedCore = ['', '', '']
+                } else {
+                    selectedCoreList = [...selectedCoreList,target]
+                    selectedCore = target
+                }
+
+                return {
+                    ...prevState,
+                    selectedCoreList,
+                    selectedCore
+                }
+            })
+        }
+
         this.state = {
             page: 'class',
             v_matrix: true,
@@ -184,7 +224,9 @@ class App extends React.Component {
             _changeMode: this._changeMode,
             _select_createCore: this._select_createCore,
             _cancel_createCore: this._cancel_createCore,
-            _createCore: this._createCore
+            _createCore: this._createCore,
+            _select_homeCore: this._select_homeCore,
+            _select_removeCore: this._select_removeCore
         }
     }
 

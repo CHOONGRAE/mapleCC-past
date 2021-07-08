@@ -13,7 +13,9 @@ export default class CoreItem extends React.Component {
                     coreList,
                     selectedCoreList,
                     selectedSkillList,
-                    _select_createCore } = store
+                    _select_createCore ,
+                    _select_homeCore ,
+                    _select_removeCore } = store
 
                 const innerHtml = () => {
                     var string = 'outline '
@@ -22,15 +24,19 @@ export default class CoreItem extends React.Component {
 
                     if (v_matrix_mode == 'create') {
                         if (selectedSkillList.includes(skillList[index])) string += 'selected'
-                        return skillList[index]
-                            ? <div className={string} onClick={() => _select_createCore(skillList[index])}>
-                                <img src={img(skillData[skillList[index]])} />
+                        var target = skillList[index]
+                        return target
+                            ? <div className={string} onClick={() => _select_createCore(target)}>
+                                <img src={img(skillData[target])} />
                             </div>
                             : null
                     } else {
                         if (selectedCoreList.includes(coreList[index])) string += 'selected'
-                        return coreList[index]
-                            ? <div className={string}>
+                        var target = coreList[index]
+                        var func = _select_homeCore
+                        if(v_matrix_mode == 'remove') func = _select_removeCore
+                        return target
+                            ? <div className={string} onClick={() => func(target)}>
                                 <img src={img(skillData[coreList[index][0]])} />
                                 <img src={Frame} />
                             </div>

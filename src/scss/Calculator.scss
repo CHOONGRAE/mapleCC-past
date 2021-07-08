@@ -1,0 +1,138 @@
+@use 'sass:math';
+
+#Calculator {
+    $rem: math.div(1rem, 16);
+
+    width: calc(100% - #{$rem} * 8);
+    margin: $rem*8 auto;
+
+    .inline {
+        display: inline-block;
+    }
+
+    p {
+        color: white;
+        font: {
+            size: $rem*20 !important;
+            weight: bold;
+        };
+        margin: 0;
+    }
+
+    & > div {
+        border-bottom: $rem solid #777;
+    }
+
+    .coreList, .targetList {
+        .title {
+            padding-left: $rem*8;
+        }
+
+        .list {
+            min-height: $rem*38;
+
+            .coreImg {
+                position: relative;
+
+                width: $rem*32;
+                height: $rem*38;
+
+                img {
+                    position: absolute;
+                }
+            }
+        }
+    }
+
+    .setting {
+        padding: 0 $rem*8 $rem*6;
+
+        p {
+            margin: $rem*2 0;
+        }
+
+        & > div {
+            cursor: pointer;
+            padding: $rem;
+            margin: $rem*2;
+            border: $rem solid white;
+            border-radius: $rem*4;
+            box-sizing: border-box;
+
+            color: white;
+            font: {
+                size: $rem*16 !important;
+                weight: bold;
+            };
+        }
+    }
+
+    .option {
+        margin: $rem*2 0;
+        padding: $rem*4 0 $rem*6;
+        .title {
+            color: white;
+            font: {
+                size: $rem*14 !important;
+                weight: bold;
+            };
+            border: $rem solid white;
+            border-radius: $rem*4;
+            padding: $rem*2;
+        }
+        vertical-align: top;
+
+        .list {
+            width: calc(100% - #{$rem} * 70);
+            vertical-align: top;
+
+            .item {
+                margin-left: $rem*2;
+                width: calc(100% / 3 - #{$rem}*2);
+                color: white;
+                font: {
+                    size: $rem*16 !important;
+                    weight: bold;
+                };
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                vertical-align: top;
+
+                label {
+                    cursor: pointer;
+
+                    input {
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+
+    .btns {
+        margin: $rem*2 0;
+        padding: $rem*6 0;
+
+        input {
+            display: none;
+        }
+
+        label {
+            cursor: pointer;
+            padding: $rem*2;
+            margin: $rem*2;
+            display: inline-block;
+            width: calc(100% / 2 - #{$rem} * 4);
+            text-align: center;
+            color: white;
+            font: {
+                size: $rem*20 !important;
+                weight: bold;
+            };
+            border: $rem*2 solid white;
+            box-sizing: border-box;
+            border-radius: $rem*4;
+        }
+    }
+}

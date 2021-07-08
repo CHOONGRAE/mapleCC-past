@@ -31,6 +31,18 @@
                 weight: bold;
             };
             margin-left: $rem*8;
+
+            &.home {
+                color: #000c;
+            }
+
+            &.create {
+                color: #5f5c;
+            }
+
+            &.remove {
+                color: #f55c;
+            }
         }
 
         .close {

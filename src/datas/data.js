@@ -10,7 +10,9 @@ require('./categories/group.json').forEach(g => {
         skillList.list.forEach(s => {
             data[g][c].skill[s] = {
                 nick: skillList.nick[s],
-                img: require(`./skillImg/${g}/${c}/${s}.png`).default
+                img: require(`./skillImg/${g}/${c}/${s}.png`).default,
+                core1: require(`./skillImg/${g}/${c}/${s}0.png`).default,
+                core2: require(`./skillImg/${g}/${c}/${s}1.png`).default
             }
         })
     })

@@ -19,14 +19,14 @@ export default class CoreItem extends React.Component {
                 const innerHtml = () => {
                     var string = 'outline '
 
-                    const img = (data) => data ? data.img : null
+                    const img = (data,pos) => data ? data[pos] : null
 
                     if (v_matrix_mode == 'create') {
                         if (selectedSkillList.includes(skillList[index])) string += 'selected'
                         var target = skillList[index]
                         return target
                             ? <div className={string} onClick={() => _select_createCore(target)}>
-                                <img src={img(skillData[target])} />
+                                <img src={img(skillData[target],'img')} />
                             </div>
                             : null
                     } else {
@@ -36,9 +36,9 @@ export default class CoreItem extends React.Component {
                         if(v_matrix_mode == 'remove') func = _select_removeCore
                         return target
                             ? <div className={string} onClick={() => func(target)}>
-                                <img src={img(skillData[target[2]])} />
-                                <img src={img(skillData[target[0]])} />
-                                <img src={img(skillData[target[1]])} />
+                                <img src={img(skillData[target[2]],'img')} />
+                                <img src={img(skillData[target[0]],'core1')} />
+                                <img src={img(skillData[target[1]],'core2')} />
                                 <img src={require('../datas/iconFrame.frame3.png').default} />
                             </div>
                             : null

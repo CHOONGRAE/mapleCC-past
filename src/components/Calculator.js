@@ -29,12 +29,12 @@ export default class Calculator extends React.Component {
 
             const status = ['계 산 시 작','계 산 중 ...(Click:취소)','계 산 완 료']
 
-            const img = (data) => data ? data.img : null
+            const img = (data,pos) => data ? data[pos] : null
 
             const coreImg = (core) => <div key={core} className='coreImg'>
-                <img src={img(skillData[core[2]])} />
-                <img src={img(skillData[core[0]])} />
-                <img src={img(skillData[core[1]])} />
+                <img src={img(skillData[core[2]],'img')} />
+                <img src={img(skillData[core[0]],'core1')} />
+                <img src={img(skillData[core[1]],'core2')} />
                 <img src={require('../datas/iconFrame.frame3.png').default} />
             </div>
 

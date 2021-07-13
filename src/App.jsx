@@ -18,11 +18,27 @@ class App extends React.Component {
 
         this._changeGroup = (group) => {
             this.setState(prevState => {
-                var classList = [...Object.keys(Data[group])]
-                var selectedClass = classList[0]
-                var classImg = Data[group][selectedClass].img
-                var skillList = [...Object.keys(Data[group][selectedClass].skill)]
-                var skillData = Data[group][selectedClass].skill
+                let classList = [...Object.keys(Data[group])]
+                let selectedClass = classList[0]
+                let classImg = Data[group][selectedClass].img
+                let skillList = [...Object.keys(Data[group][selectedClass].skill)]
+                let skillData = Data[group][selectedClass].skill
+
+                let coreList = (() => {
+                    let list = []
+                    for(let f in skillList){
+                        for(let s in skillList){
+                            if(f != s){
+                                for(let t in skillList){
+                                    if(f != t && s != t){
+                                        list[list.length] = [+f,+s,+t]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return list
+                })()
 
                 return {
                     ...prevState,
@@ -31,16 +47,17 @@ class App extends React.Component {
                     selectedClass,
                     classImg,
                     skillList,
-                    skillData
+                    skillData,
+                    coreList
                 }
             })
         }
 
         this._changeClass = (selectedClass) => {
             this.setState(prevState => {
-                var classImg = Data[prevState.group][selectedClass].img
-                var skillList = [...Object.keys(Data[prevState.group][selectedClass].skill)]
-                var skillData = Data[prevState.group][selectedClass].skill
+                let classImg = Data[prevState.group][selectedClass].img
+                let skillList = [...Object.keys(Data[prevState.group][selectedClass].skill)]
+                let skillData = Data[prevState.group][selectedClass].skill
 
                 return {
                     ...prevState,
@@ -54,11 +71,12 @@ class App extends React.Component {
 
         this._changeTargetSkill = (e) => {
             this.setState(prevState => {
-                var { skillList, targetSkillList } = prevState
-                if (e.target.checked) targetSkillList.push(e.target.id)
-                else targetSkillList.splice(targetSkillList.indexOf(e.target.id), 1)
+                let { targetSkillList } = prevState
+                let id = +e.target.dataset.skillId
+                if (e.target.checked) targetSkillList[targetSkillList.length] = id
+                else targetSkillList.splice(targetSkillList.indexOf(id), 1)
 
-                targetSkillList.sort((a, b) => skillList.indexOf(a) - skillList.indexOf(b))
+                targetSkillList.sort((a, b) => a - b)
 
                 return {
                     ...prevState,
@@ -78,17 +96,17 @@ class App extends React.Component {
         }
 
         this._batchimEnding = (s) => {
-            var lastLetter = s[s.length - 1]
-            var uni = lastLetter.charCodeAt(0)
+            let lastLetter = s[s.length - 1]
+            let uni = lastLetter.charCodeAt(0)
             return (uni - 44032) % 28 ? '과 ' : '와 '
         }
 
         this._changeMode = (e) => {
             this.setState(prevState => {
-                var v_matrix_mode = e.target.id
-                var selectedCoreList = []
-                var selectedCore = ['', '', '']
-                var selectedSkillList = ['', '', '']
+                let v_matrix_mode = e.target.id
+                let selectedCoreList = []
+                let selectedCore = ['', '', '']
+                let selectedSkillList = ['', '', '']
 
                 return {
                     ...prevState,
@@ -101,9 +119,9 @@ class App extends React.Component {
         }
 
         this._select_createCore = (target) => {
-            var { selectedSkillList } = this.state
+            let { selectedSkillList } = this.state
             if(!selectedSkillList.includes(target)) this.setState(prevState => {
-                var nullIndex = selectedSkillList.indexOf('')
+                let nullIndex = selectedSkillList.indexOf('')
                 if(nullIndex == -1) nullIndex = 2
                 selectedSkillList[nullIndex] = target
 
@@ -116,7 +134,7 @@ class App extends React.Component {
 
         this._cancel_createCore = (index) => {
             this.setState(prevState => {
-                var { selectedSkillList } = prevState
+                let { selectedSkillList } = prevState
                 selectedSkillList[index] = ''
                 
                 return {
@@ -127,14 +145,14 @@ class App extends React.Component {
         }
 
         this._existenceCheck = (target,list = this.state.coreList) => {
-            for(var core of list){
+            for(let core of list){
                 if(JSON.stringify(core) == JSON.stringify(target)) return true
             }
             return false
         }
 
         this._sortCoreList = (coreList) => {
-            var { skillList } = this.state
+            let { skillList } = this.state
             return coreList.sort((a,b) => {
                 if(a[0] == b[0]){
                     if(a[1] == b[1]) return skillList.indexOf(a[2]) - skillList.indexOf(b[2])
@@ -147,7 +165,7 @@ class App extends React.Component {
         this._createCore = () => {
             setTimeout(() => {
                 this.setState(prevState => {
-                    var { coreList, selectedSkillList } = this.state
+                    let { coreList, selectedSkillList } = this.state
                     if(!this._existenceCheck(selectedSkillList)) coreList = this._sortCoreList([...coreList,selectedSkillList])
                     selectedSkillList = ['', '', '']
     
@@ -162,7 +180,7 @@ class App extends React.Component {
 
         this._select_homeCore = (target) => {
             this.setState(prevState => {
-                var {selectedCoreList, selectedCore} = prevState
+                let {selectedCoreList, selectedCore} = prevState
 
                 if(this._existenceCheck(target,selectedCoreList)){
                     selectedCoreList = []
@@ -182,7 +200,7 @@ class App extends React.Component {
 
         this._select_removeCore = (target) => {
             this.setState(prevState => {
-                var {selectedCoreList, selectedCore} = prevState
+                let {selectedCoreList, selectedCore} = prevState
 
                 if(this._existenceCheck(target,selectedCoreList)){
                     selectedCoreList = selectedCoreList.filter(v => JSON.stringify(v) != JSON.stringify(target))
@@ -203,7 +221,7 @@ class App extends React.Component {
         this._removeCore = () => {
             setTimeout(() => {
                 this.setState(prevState => {
-                    var {
+                    let {
                         coreList,
                         selectedCoreList,
                         selectedCore
@@ -233,7 +251,7 @@ class App extends React.Component {
 
         this._changeSuperposition = () => {
             this.setState(prevState => {
-                var { superposition } = prevState
+                let { superposition } = prevState
                 superposition++
                 if(superposition > 4) superposition -= 3
 
@@ -249,7 +267,7 @@ class App extends React.Component {
         
         this._changePlusCores = () => {
             this.setState(prevState => {
-                var { plusCores } = prevState
+                let { plusCores } = prevState
                 plusCores++
                 if(plusCores > 2) plusCores -= 3
 
@@ -263,13 +281,13 @@ class App extends React.Component {
 
         this._checkMinCore = () => {
             this.setState(prevState => {
-                var {
+                let {
                     superposition,
                     targetSkillList,
                     minCores
                 } = prevState
 
-                var targetCnt = targetSkillList.length
+                let targetCnt = targetSkillList.length
                 minCores = 0
 
                 if(targetCnt > 0){
@@ -277,7 +295,7 @@ class App extends React.Component {
                     minCores = targetCnt + Math.floor(targetCnt / 2) + (targetCnt % 2 ? 1 : 0)
                     else if(superposition > targetCnt) minCores = superposition
                     else {
-                        var required = superposition * targetCnt
+                        let required = superposition * targetCnt
                         minCores = Math.floor(required / 3) + (required % 3 ? 1 : 0)
                     }
                 } 
@@ -291,7 +309,7 @@ class App extends React.Component {
 
         this._changeSubSkill = (e) => {
             this.setState(prevState => {
-                var {
+                let {
                     skillList,
                     targetSkillList,
                     superposition,
@@ -304,8 +322,8 @@ class App extends React.Component {
 
                 subSkillList.sort((a, b) => skillList.indexOf(a) - skillList.indexOf(b))
 
-                var possible = (minCores + plusCores) * 3
-                var required = targetSkillList.length * superposition
+                let possible = (minCores + plusCores) * 3
+                let required = targetSkillList.length * superposition
     
                 if (subSkillList.length >= possible - required)
                     document.querySelectorAll('.item input').forEach(v => {

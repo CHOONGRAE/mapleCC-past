@@ -4,6 +4,7 @@ import Store from '../contexts/Store'
 const Add = () => <Store.Consumer>
     {store => {
         const {
+            skillList,
             targetSkillList,
             selectedSkillList,
             _createCore
@@ -26,7 +27,7 @@ const Add = () => <Store.Consumer>
                         var position = (i == 0 ? '메인 ' : '서브 ') + '스킬'
                         return <p key={i} className='addList'>
                             <span className='position'>&nbsp;{position}&nbsp;</span>
-                            <span className={className(v)} >{v}</span>
+                            <span className={className(v)} >{skillList[v]}</span>
                         </p>
                     })}
                     <p>코어를 추가 하시겠습니까?</p>

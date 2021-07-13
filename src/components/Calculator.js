@@ -1,5 +1,6 @@
 import React from 'react'
 import Store from '../contexts/Store'
+import Calculate from '../solver/Calculate'
 
 export default class Calculator extends React.Component {
 
@@ -7,6 +8,19 @@ export default class Calculator extends React.Component {
 
     componentDidMount = () => {
         this.context._checkMinCore()
+    }
+
+    calculate = () => {
+        const {
+            targetSkillList,
+            coreList,
+            subSkillList,
+            superposition,
+            minCores,
+            plusCores
+        } = this.context
+
+        let calc = new Calculate(targetSkillList,coreList,subSkillList,superposition,minCores,plusCores)
     }
 
     render = () => <Store.Consumer>
@@ -32,9 +46,9 @@ export default class Calculator extends React.Component {
             const img = (data,pos) => data ? data[pos] : null
 
             const coreImg = (core) => <div key={core} className='coreImg'>
-                <img src={img(skillData[core[2]],'img')} />
-                <img src={img(skillData[core[0]],'core1')} />
-                <img src={img(skillData[core[1]],'core2')} />
+                <img src={img(skillData[skillList[core[2]]],'img')} />
+                <img src={img(skillData[skillList[core[0]]],'core1')} />
+                <img src={img(skillData[skillList[core[1]]],'core2')} />
                 <img src={require('../datas/iconFrame.frame3.png').default} />
             </div>
 
@@ -69,7 +83,7 @@ export default class Calculator extends React.Component {
                 <div className='targetList'>
                     <p className='title'>Target List</p>
                     <div className='list'>
-                        {targetSkillList.map(v => <img key={v} src={img(skillData[v])}/>)}
+                        {targetSkillList.map(v => <img key={v} src={img(skillData[skillList[v]],'img')}/>)}
                     </div>
                 </div>
                 <div className='setting'>
@@ -92,7 +106,7 @@ export default class Calculator extends React.Component {
                 <div className='btns'>
                     <input type='button' id='home' onClick={_changeMode}/>
                     <label htmlFor='home'>돌 아 가 기</label>
-                    <input type='button' id='calc' />
+                    <input type='button' id='calc' onClick={this.calculate()}/>
                     <label htmlFor='calc'>{status[calcStatus]}</label>
                 </div>
             </div>

@@ -6,6 +6,7 @@ export default () => <Store.Consumer>
     {store => {
         const {
             v_matrix_mode,
+            skillList,
             skillData,
             targetSkillList,
             selectedCoreList,
@@ -16,23 +17,24 @@ export default () => <Store.Consumer>
         } = store
 
         const coreName = () => {
-            var string = []
-            var list
+            let string = []
+            let list
             if(v_matrix_mode == 'create') list = selectedSkillList
             else list = selectedCore
 
-            for(var i in list){
-                var s = list[i]
+            for(let i in list){
+                let s = skillList[list[i]]
+
                 if(s != ''){
                     switch(i){
                         case '0':
                             string[2] = s
                             break
                         case '1':
-                            string[0] = skillData[s].nick + _batchimEnding(skillData[s].nick)
+                            string[0] = skillData[s] ? skillData[s].nick + _batchimEnding(skillData[s].nick) : ''
                             break
                         case '2':
-                            string[1] = skillData[s].nick + "의 "
+                            string[1] = skillData[s] ? skillData[s].nick + "의 " : ''
                             break
                     }
                 }
@@ -62,20 +64,20 @@ export default () => <Store.Consumer>
             }
 
             const skillName = () => {
-                var className = (name) =>{
-                    var result = 'limit '
+                let className = (name) =>{
+                    let result = 'limit '
                     if(targetSkillList.includes(name)) result+='target'
                     return result
                 }
-                var name = selectedCore[index]
+                let name = selectedCore[index]
                 if(v_matrix_mode == 'create'){
                     name = selectedSkillList[index]
                     return <p className='skillName'>
-                        <span className={className(name)}>{name}</span> 강화
+                        <span className={className(name)}>{skillList[name]}</span> 강화
                     </p>                    
                 }
                 return <p className='skillName'>
-                    <span className={className(name)}>{name}</span> 강화
+                    <span className={className(name)}>{skillList[name]}</span> 강화
                 </p>  
             }
 

@@ -7,7 +7,6 @@ import { Add, Remove, RemoveAll } from './CoreManagementModal'
 export default class CoreManagement extends React.Component {
     render = () => <Store.Consumer>
         {store => {
-
             const modal = () => {
                 const { v_matrix_mode } = store
                 switch(v_matrix_mode){

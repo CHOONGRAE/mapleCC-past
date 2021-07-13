@@ -17,28 +17,27 @@ export default class CoreItem extends React.Component {
                     _select_removeCore } = store
 
                 const innerHtml = () => {
-                    var string = 'outline '
+                    let string = 'outline '
 
                     const img = (data,pos) => data ? data[pos] : null
 
                     if (v_matrix_mode == 'create') {
-                        if (selectedSkillList.includes(skillList[index])) string += 'selected'
-                        var target = skillList[index]
-                        return target
-                            ? <div className={string} onClick={() => _select_createCore(target)}>
-                                <img src={img(skillData[target],'img')} />
+                        if (selectedSkillList.includes(index)) string += 'selected'
+                        return skillList[index]
+                            ? <div className={string} onClick={() => _select_createCore(index)}>
+                                <img src={img(skillData[skillList[index]],'img')} />
                             </div>
                             : null
                     } else {
                         if (selectedCoreList.includes(coreList[index])) string += 'selected'
-                        var target = coreList[index]
-                        var func = _select_homeCore
+                        let target = coreList[index]
+                        let func = _select_homeCore
                         if(v_matrix_mode == 'remove') func = _select_removeCore
                         return target
                             ? <div className={string} onClick={() => func(target)}>
-                                <img src={img(skillData[target[2]],'img')} />
-                                <img src={img(skillData[target[0]],'core1')} />
-                                <img src={img(skillData[target[1]],'core2')} />
+                                <img src={img(skillData[skillList[target[2]]],'img')} />
+                                <img src={img(skillData[skillList[target[0]]],'core1')} />
+                                <img src={img(skillData[skillList[target[1]]],'core2')} />
                                 <img src={require('../datas/iconFrame.frame3.png').default} />
                             </div>
                             : null

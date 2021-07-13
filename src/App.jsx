@@ -310,25 +310,25 @@ class App extends React.Component {
         this._changeSubSkill = (e) => {
             this.setState(prevState => {
                 let {
-                    skillList,
                     targetSkillList,
                     superposition,
                     minCores,
                     plusCores,
                     subSkillList
                 } = prevState
-                if (e.target.checked) subSkillList.push(e.target.id)
-                else subSkillList.splice(subSkillList.indexOf(e.target.id), 1)
 
-                subSkillList.sort((a, b) => skillList.indexOf(a) - skillList.indexOf(b))
+                let id = +e.target.dataset.skillId
+                if (e.target.checked) subSkillList.push(id)
+                else subSkillList.splice(subSkillList.indexOf(id), 1)
+
+                subSkillList.sort((a, b) => a - b)
 
                 let possible = (minCores + plusCores) * 3
                 let required = targetSkillList.length * superposition
     
                 if (subSkillList.length >= possible - required)
                     document.querySelectorAll('.item input').forEach(v => {
-                            console.log(v.id)
-                            if (!subSkillList.includes(v.id))
+                            if (!subSkillList.includes(+v.dataset.skillId))
                                 v.toggleAttribute('disabled')
                         })
                 else document.querySelectorAll('.item input').forEach(v => {
@@ -353,7 +353,7 @@ class App extends React.Component {
             classImg: '',
             skillList: [],
             skillData: {},
-            targetSkillList: [],
+            targetSkillList: [0],
             v_matrix_mode: 'calculator',
             coreList: [],
             selectedCoreList: [],

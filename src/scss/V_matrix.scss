@@ -57,6 +57,17 @@
 
             input {
                 display: none;
+
+                &:disabled + label {
+                    svg {
+                        circle {
+                            stroke: #777;
+                        }
+                        path {
+                            stroke:  #777;
+                        }
+                    }
+                }
             }
 
             label {

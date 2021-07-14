@@ -363,7 +363,6 @@ class App extends React.Component {
             minCores: 0,
             plusCores: 0,
             subSkillList: [],
-            calcStatus: 0,
             _changePage: this._changePage,
             _changeGroup: this._changeGroup,
             _changeClass: this._changeClass,

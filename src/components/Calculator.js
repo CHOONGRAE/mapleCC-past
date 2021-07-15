@@ -1,6 +1,7 @@
 import React from 'react'
 import Store from '../contexts/Store'
 import Calculate from '../solver/Calculate'
+import Result from '../solver/Result'
 
 let solvers
 let iterations
@@ -19,7 +20,8 @@ export default class Calculator extends React.Component {
     state = {
         state: states.START,
         iterations: 0,
-        result: []
+        result: [],
+        show: false
     }
 
     componentDidMount = () => {
@@ -86,7 +88,9 @@ export default class Calculator extends React.Component {
                         return <div className='status'>
                             <p className='title'>STATUS : 계 산 중</p>
                             <p><span className='target'>{this.state.iterations}</span> 번의 프로세스 실행</p>
-                            <p><span className='target'>{this.state.result.length}</span> 개의 조합 찾아냄</p>
+                            <p><span className='target'>{this.state.result.length}</span> 개의 조합 찾아냄
+                                <input type='button' id='show' disabled={!this.state.result.length} onClick={() => this._toggleShow()}/>
+                                <label htmlFor='show' className='target'>결 과 보 기</label></p>
                             <input type='button' id='calc' className='moveRight' onClick={this._calcButton} />
                             <label htmlFor='calc'>일 시 정 지</label>
                         </div>
@@ -95,7 +99,9 @@ export default class Calculator extends React.Component {
                         return <div className='status'>
                             <p className='title'>STATUS : 일 시 정 지</p>
                             <p><span className='target'>{this.state.iterations}</span> 번의 프로세스 실행</p>
-                            <p><span className='target'>{this.state.result.length}</span> 개의 조합 찾아냄</p>
+                            <p><span className='target'>{this.state.result.length}</span> 개의 조합 찾아냄
+                                <input type='button' id='show' disabled={!this.state.result.length} onClick={() => this._toggleShow()}/>
+                                <label htmlFor='show' className='target'>결 과 보 기</label></p>
                             <input type='button' id='reset' onClick={this._reset} />
                             <label htmlFor='reset'>리 셋</label>
                             <input type='button' id='calc' onClick={this._calcButton} />
@@ -106,48 +112,68 @@ export default class Calculator extends React.Component {
                         return <div className='status'>
                             <p className='title'>STATUS : 계 산 완 료</p>
                             <p><span className='target'>{this.state.iterations}</span> 번의 프로세스 실행</p>
-                            <p><span className='target'>{this.state.result.length}</span> 개의 조합 찾아냄</p>
+                            <p><span className='target'>{this.state.result.length}</span> 개의 조합 찾아냄
+                                <input type='button' id='show' disabled={!this.state.result.length} onClick={() => this._toggleShow()}/>
+                                <label htmlFor='show' className='target'>결 과 보 기</label></p>
                             <input type='button' id='calc' className='moveRight' onClick={this._calcButton} />
                             <label htmlFor='calc'>리 셋</label>
                         </div>
                 }
             }
 
-            return <div id='Calculator'>
-                <div className='coreList'>
-                    <p className='title'>Core List</p>
-                    <div className='list'>
-                        {coreList.map(v => coreImg(v))}
+            if(this.state.show){
+                return <Result result={this.state.result} toggle={this._toggleShow}/>
+            } else {
+                return <div id='Calculator'>
+                    <div className='coreList'>
+                        <p className='title'>Core List</p>
+                        <div className='list'>
+                            {coreList.map(v => coreImg(v))}
+                        </div>
                     </div>
-                </div>
-                <div className='targetList'>
-                    <p className='title'>Target List</p>
-                    <div className='list'>
-                        {targetSkillList.map(v => <img key={v} src={img(skillData[skillList[v]], 'img')} />)}
+                    <div className='targetList'>
+                        <p className='title'>Target List</p>
+                        <div className='list'>
+                            {targetSkillList.map(v => <img key={v} src={img(skillData[skillList[v]], 'img')} />)}
+                        </div>
                     </div>
-                </div>
-                <div className='setting'>
-                    <p>
-                        <span className='target'>Core List</span> 를&nbsp;
-                        <span className='target'>Target List</span> 들이
-                    </p>
-                    <input disabled={this.state.state != states.START} type='button' id='superposition' onClick={_changeSuperposition} />
-                    <label htmlFor='superposition'>&nbsp;{superposition}&nbsp;중 첩&nbsp;</label>
-                    <input disabled={this.state.state != states.START} type='button' id='cores' onClick={_changePlusCores} />
-                    <label htmlFor='cores'>
-                        &nbsp;{minCores + plusCores}
-                        &nbsp;( 최 소
-                        {plusCores == 0 ? null : ` + ${plusCores}`}
-                        &nbsp;) 코 어&nbsp;</label>
-                    <p className='inline'>
-                        &nbsp;가 되도록 계산합니다.
-                    </p>
-                </div>
-                {option()}
-                {status()}
-            </div>
+                    <div className='setting'>
+                        <p>
+                            <span className='target'>Core List</span> 를&nbsp;
+                            <span className='target'>Target List</span> 들이
+                        </p>
+                        <input disabled={this.state.state != states.START} type='button' id='superposition' onClick={_changeSuperposition} />
+                        <label htmlFor='superposition'>&nbsp;{superposition}&nbsp;중 첩&nbsp;</label>
+                        <input disabled={this.state.state != states.START} type='button' id='cores' onClick={_changePlusCores} />
+                        <label htmlFor='cores'>
+                            &nbsp;{minCores + plusCores}
+                            &nbsp;( 최 소
+                            {plusCores == 0 ? null : ` + ${plusCores}`}
+                            &nbsp;) 코 어&nbsp;</label>
+                        <p className='inline'>
+                            &nbsp;가 되도록 계산합니다.
+                        </p>
+                    </div>
+                    {option()}
+                    {status()}
+                </div>                
+            }
         }}
     </Store.Consumer>
+
+    _toggleShow = () => {
+        const { state } = this.state
+        if(state == states.RUNNING){
+            document.querySelector('input#calc').click()
+        }
+        this.setState(prevState => {
+            let show = !prevState.show
+            return {
+                ...prevState,
+                show
+            }
+        })
+    }
 
     _getResult = (combed,list) => {
         const { skillList, coreList } = this.context
@@ -179,6 +205,9 @@ export default class Calculator extends React.Component {
 
         this.setState(prevState => {
             let result = [...prevState.result,...correctList]
+            result = result.sort((a,b) => {
+                return a.map(v => v.join('')).join('') - b.map(v => v.join('')).join('')
+            })
             let iterations = prevState.iterations
             for (let solver of solvers) {
                 iterations += solver.iterations

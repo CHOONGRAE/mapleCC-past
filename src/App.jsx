@@ -152,13 +152,12 @@ class App extends React.Component {
         }
 
         this._sortCoreList = (coreList) => {
-            let { skillList } = this.state
             return coreList.sort((a,b) => {
                 if(a[0] == b[0]){
-                    if(a[1] == b[1]) return skillList.indexOf(a[2]) - skillList.indexOf(b[2])
-                    return skillList.indexOf(a[1]) - skillList.indexOf(b[1]) 
+                    if(a[1] == b[1]) return a[2] - b[2]
+                    return a[1] - b[1] 
                 }
-                return skillList.indexOf(a[0]) - skillList.indexOf(b[0])
+                return a[0] - b[0]
             })
         }
 
@@ -345,7 +344,7 @@ class App extends React.Component {
 
         this.state = {
             page: 'class',
-            v_matrix: true,
+            v_matrix: false,
             groupList: [...Object.keys(Data)],
             selectedGroup: '',
             classList: [],
@@ -353,8 +352,8 @@ class App extends React.Component {
             classImg: '',
             skillList: [],
             skillData: {},
-            targetSkillList: [0],
-            v_matrix_mode: 'calculator',
+            targetSkillList: [0,1,2],
+            v_matrix_mode: 'home',
             coreList: [],
             selectedCoreList: [],
             selectedCore: ['', '', ''],

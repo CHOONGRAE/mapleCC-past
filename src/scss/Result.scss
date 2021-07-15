@@ -1,0 +1,80 @@
+@use 'sass:math';
+@import './ResultItem.scss';
+
+#Result {
+    $rem: math.div(1rem ,16);
+
+    p{
+        margin: 0;
+        color: white;
+        font-weight: bold;
+    }
+
+    .title {
+        text-align: center;
+        font-size: $rem*24 !important;
+        padding: $rem*8;
+        position: relative;
+
+        input {
+            display: none;
+        }
+
+        label {
+            position: absolute;
+            right: 0;
+            display: inline-block;
+            cursor: pointer;
+            padding: $rem*2;
+            margin: 0 $rem*4;
+            font-size: $rem*16 !important;
+            border: $rem*2 solid white;
+            border-radius: $rem*4;
+        }
+    }
+
+    .pagination {
+        padding: $rem*8 0;
+        border: {
+            top: $rem*2 solid #bbb;
+        };
+
+        input {
+            display: none;
+        }
+
+        label {
+            cursor: pointer;
+            height: $rem*24;
+            svg {
+                path {
+                    stroke: white;
+                    stroke-width: $rem*4;
+                    fill: none;
+                    stroke-linecap: round;
+                    stroke-linejoin: round;
+                }
+            }
+        }
+
+        div.info {
+            height: $rem*24;
+            color: white;
+            font: {
+                size: $rem*24 !important;
+            };
+            span {
+                display: inline-block;
+                height: $rem*24;
+                line-height: $rem*24;
+
+                &:first-child, &:last-child{
+                    font-size: $rem*30 !important
+                }
+            }
+        }
+
+        display: flex;
+        justify-content: space-around;
+    }
+}

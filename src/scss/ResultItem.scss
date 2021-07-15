@@ -1,0 +1,156 @@
+@use 'sass:math';
+
+#ResultItem {
+    $rem: math.div(1rem, 16);
+
+    .coreList {
+        padding: $rem*8 0;
+        & > div {
+            display: inline-block;
+            vertical-align: top;
+            margin: $rem*4;
+
+            &.cnt{
+                padding: 0 $rem*4;
+                height: $rem*59;
+                line-height: $rem*59;
+                text-align: center;
+                color: white;
+                font: {
+                    size: $rem*24 !important;
+                    weight: bold;
+                };
+            }
+
+            &.core {
+                display: inline-block;
+                width: $rem*68;
+                height: $rem*59;
+        
+                position: relative;
+        
+                background: {
+                    image: url('../datas/core.png');
+                    size: $rem*68 $rem*59;
+                    position: center;
+                    repeat: no-repeat;
+                };
+        
+                .outline {
+                    width: 100%;
+                    height: 100%;
+            
+                    background: {
+                        image: url('../datas/outline.png');
+                        size: $rem*68 $rem*59;
+                        position: center;
+                        repeat: no-repeat;
+                    };
+            
+                    &.selected {
+                        background: {
+                            image: url('../datas/outline_select.png');
+                            size: $rem*72 $rem*63;
+                        }
+                    }
+            
+                    & > img {
+                        cursor: pointer;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        width: $rem*32;
+                        height: $rem*32;
+                    }
+                }
+            }
+        }
+
+        border: {
+            top: $rem*2 solid #bbb;
+        };
+    }
+
+    .info {
+        .coreInfo{
+            padding: $rem*8 0;
+            p {
+                span {
+                    display: inline-block;
+                    vertical-align: top;
+                    font-size: $rem*20 !important;
+
+                    &.position {
+                        font-size: $rem*14 !important;
+                        padding: 0 $rem*2;
+                        margin: $rem*2;
+                        border: $rem solid white;
+                        border-radius: $rem*4;
+                    }
+
+                    &.text {
+                        padding-left: $rem*4;
+                        width: calc(100% - #{$rem} * 50);
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+                }
+
+                &.skillName {
+                    display: inline-block;
+                    width: calc(100% / 3);
+                }
+            }
+
+            border: {
+                top: $rem dotted #bbb;
+            };
+        }
+
+        .superpositionInfo {
+            padding: $rem*8 0;
+
+            .superposition {
+                & > div {
+                    display: inline-block;
+                    vertical-align: top;
+
+                    &.position {
+                        color: white;
+                        font: {
+                            size: $rem*16 !important;
+                            weight: bold;
+                        };
+                        padding: 0 $rem*2;
+                        margin: $rem*2;
+                    }
+
+                    &.list {
+                        width: calc(100% - #{$rem} * 60);
+                        span {
+                            display: inline-block;
+                            vertical-align: middle;
+                            width: calc(100% / 3 - #{$rem}*4);
+                            color: white;
+                            font: {
+                                size: $rem*16 !important;
+                                weight:bold;
+                            };
+                            text-align: center;
+                            padding-left: $rem*4;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                        }
+                    }
+                }
+            }
+
+            border: {
+                top: $rem dotted #bbb;
+            };
+        }
+    }
+}

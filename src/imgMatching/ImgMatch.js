@@ -17,6 +17,16 @@ export default class ImgMatch {
         let c = test.getContext('2d')
         c.putImageData(area,0,0)
         document.querySelector('#maple').appendChild(test)
+
+        for(let core of this.coreImgs){
+            let result = this.matching(gl,[area,core[1]])
+            if(result.v/255 >=0.95){
+                c.rect(result.x,result.y,32,32)
+                c.strokeStyle='red'
+                c.stroke()
+                console.log('get',core[0],result)
+            }
+        }
     }
     
     writeShader = () => {
@@ -83,7 +93,7 @@ export default class ImgMatch {
                 float toi = result.r*i.r + result.g*i.g + result.b*i.b;
                 float toq = result.r*q.r + result.g*q.g + result.b*q.b;
 
-                outColor = vec4(vec3((toy + toi + toq) / 3.0),1);
+                outColor = vec4(vec3(toy),1);
             }`
 
         return {vertex,fragment}
@@ -240,7 +250,8 @@ export default class ImgMatch {
         let imgs = [this.src, await this.loadImg(require('../datas/targetArea.png').default)]
 
         let point = this.matching(gl,imgs)
-        if(point.v / 255 > 0.975){
+        console.log(point)
+        if(point.v / 255 > 0.95){
             let canvas = new OffscreenCanvas(imgs[0].width,imgs[0].height)
             let context = canvas.getContext('2d')
             context.putImageData(this.src,0,0)

@@ -25,6 +25,7 @@ export default () => <Store.Consumer>
             </div>
             case 'create': return <div id='V_matrixBtns'>
                 <label htmlFor='Add'>추 가</label>
+                <label htmlFor='ImgMatch'>이 미 지 인 식</label>
                 <input type='button' id='home' onClick={_changeMode} />
                 <label htmlFor='home'>처 음 으 로</label>
             </div>

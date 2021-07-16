@@ -3,6 +3,7 @@ import Store from '../contexts/Store'
 import CoreItem from './CoreItem'
 import CoreInfo from './CoreInfo'
 import { Add, Remove, RemoveAll } from './CoreManagementModal'
+import ImageMatching from './ImgMatching'
 
 export default class CoreManagement extends React.Component {
     render = () => <Store.Consumer>
@@ -12,6 +13,7 @@ export default class CoreManagement extends React.Component {
                 switch(v_matrix_mode){
                     case 'create': return <div className='modal'>
                         <Add />
+                        <ImageMatching />
                     </div>
                     case 'remove': return <div className='modal'>
                         <Remove />

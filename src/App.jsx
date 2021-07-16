@@ -344,7 +344,7 @@ class App extends React.Component {
 
         this.state = {
             page: 'class',
-            v_matrix: false,
+            v_matrix: true,
             groupList: [...Object.keys(Data)],
             selectedGroup: '',
             classList: [],
@@ -353,7 +353,7 @@ class App extends React.Component {
             skillList: [],
             skillData: {},
             targetSkillList: [0,1,2],
-            v_matrix_mode: 'home',
+            v_matrix_mode: 'create',
             coreList: [],
             selectedCoreList: [],
             selectedCore: ['', '', ''],

@@ -1,13 +1,23 @@
 import React from 'react'
 import Store from '../contexts/Store'
 import ImgFetch from '../imgMatching/ImgFetch'
+import ImgMatch from '../imgMatching/ImgMatch'
+
+const states = {
+    START: 'start',
+    FETCH: 'fetch',
+    RUNNING: 'running',
+    COMPLETED: 'completed'
+}
 
 export default class ImageMatching extends React.Component {
 
     static contextType = Store
 
     state = {
-        files:{length:0}
+        state: states.START,
+        files: { length: 0 },
+        cores: []
     }
 
     render = () => <Store.Consumer>
@@ -30,22 +40,35 @@ export default class ImageMatching extends React.Component {
         }}
     </Store.Consumer>
 
-    _imgFetch = async() => {
+    _imgFetch = async () => {
         const { skillList, skillData } = this.context
 
-        let test = new ImgFetch(skillList,skillData)
-        return await test.fetch()
+        let fetch = new ImgFetch(skillList, skillData)
+        return await fetch.fetch()
     }
 
-    _imgMatch = async() => {
+    _imgMatch = async () => {
         console.time('test')
-        console.log(await this._imgFetch())
+
+        const {files} = this.state
+
+        // let coreImgs = await this._imgFetch()
+
+        let matchs = new Array(files.length)
+
+        for(let i=0; i< matchs.length; i++){
+            let src = URL.createObjectURL(files[i])
+            matchs[i] = new ImgMatch(src,[])
+        }
+
+        await matchs[0].run()
+
         console.timeEnd('test')
     }
 
     _changeFile = (e) => {
         this.setState({
-            files:e.target.files
+            files: e.target.files
         })
         console.log(e.target.files)
         e.target.type = 'button'

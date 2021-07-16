@@ -6,12 +6,90 @@ export default class ImgMatch {
     }
 
     run = async () => {
-        // let canvas = new OffscreenCanvas(32, 32)
-        let canvas = document.createElement('canvas')
-        this.src = await this.loadSrc(this.src)
-        let imgs = [this.src,await this.loadSrc(require('../datas/targetArea.png').default)]
-        document.querySelector('#maple').appendChild(canvas)
+        let canvas = new OffscreenCanvas(0, 0)
+        this.src = await this.loadImg(this.src)
         let gl = canvas.getContext('webgl2')
+
+        let area = await this.getArea(gl)
+        let test = document.createElement('canvas')
+        test.width = area.width
+        test.height = area.height
+        let c = test.getContext('2d')
+        c.putImageData(area,0,0)
+        document.querySelector('#maple').appendChild(test)
+    }
+    
+    writeShader = () => {
+        const vertex =
+            `#version 300 es
+
+            in vec2 a_position;
+            in vec2 a_texCoord;
+
+            uniform vec2 u_resolution;
+
+            out vec2 v_texCoord;
+
+            void main() {
+                gl_Position = vec4((a_position * 2.0 / u_resolution - 1.0), 0, 1);
+                v_texCoord = a_texCoord;
+            }`
+
+        const fragment = 
+            `#version 300 es
+
+            precision highp float;
+
+            uniform sampler2D u_tex0;
+            uniform sampler2D u_tex1;
+
+            uniform ivec2 u_wh;
+            uniform vec2 u_res0;
+            uniform vec2 u_res1;
+
+            in vec2 v_texCoord;
+            
+            out vec4 outColor;
+            
+            void main() {
+
+                vec3 ST_sum = vec3(float(0));
+                vec3 S_sum = vec3(float(0));
+                vec3 S_sqsum = vec3(float(0));
+                vec3 T_sum = vec3(float(0));
+                vec3 T_sqsum = vec3(float(0));
+
+                for(int y=0; y<=u_wh.t; y++){
+                    for(int x=0; x<=u_wh.s; x++){
+                        vec2 Td = vec2(float(x),float(y)) * u_res1;
+                        vec4 T = texture(u_tex1, Td);
+                        vec2 Sd = vec2(float(x),float(y)) * u_res0;
+                        vec4 S = texture(u_tex0, v_texCoord + Sd);
+
+                        ST_sum += S.rgb * T.rgb;
+                        S_sum += S.rgb;
+                        S_sqsum += S.rgb * S.rgb;
+                        T_sum += T.rgb;
+                        T_sqsum += T.rgb * T.rgb;
+                    }
+                }
+
+                float area = float(u_wh.s * u_wh.t);
+                vec3 result = (ST_sum * area - S_sum * T_sum) / sqrt((T_sqsum * area - T_sum * T_sum) * (S_sqsum * area - S_sum * S_sum));
+                vec3 y = vec3(0.29889531,0.58662247,0.11448223);
+                vec3 i = vec3(0.59597799,0.27417610,0.32180189);
+                vec3 q = vec3(0.21147017,0.52261711,0.31114694);
+                float toy = result.r*y.r + result.g*y.g + result.b*y.b;
+                float toi = result.r*i.r + result.g*i.g + result.b*i.b;
+                float toq = result.r*q.r + result.g*q.g + result.b*q.b;
+
+                outColor = vec4(vec3((toy + toi + toq) / 3.0),1);
+            }`
+
+        return {vertex,fragment}
+    }
+
+    matching = (gl,imgs) => {
         
         const { vertex, fragment } = this.writeShader()
 
@@ -24,6 +102,7 @@ export default class ImgMatch {
         let a_texCoord = gl.getAttribLocation(program, 'a_texCoord')
 
         let u_resolution = gl.getUniformLocation(program, 'u_resolution')
+        let u_wh = gl.getUniformLocation(program, 'u_wh')
         let u_texs = []
         for (let i = 0; i < 2; i++) {
             let u_tex = gl.getUniformLocation(program, `u_tex${i}`)
@@ -86,6 +165,7 @@ export default class ImgMatch {
         gl.useProgram(program)
         gl.bindVertexArray(vao)
         gl.uniform2f(u_resolution, gl.canvas.width, gl.canvas.height)
+        gl.uniform2i(u_wh, imgs[1].width, imgs[1].height)
         for (let i = 0; i < 2; i++) {
             gl.uniform1i(u_texs[i], i)
         }
@@ -106,77 +186,31 @@ export default class ImgMatch {
 
         gl.drawArrays(gl.TRIANGLES, 0, 6)
 
-        console.log(this.getResult(gl,imgs[0]))
-
+        return this.getPoint(gl,imgs)        
     }
-    
-    writeShader = () => {
-        const vertex =
-            `#version 300 es
 
-            in vec2 a_position;
-            in vec2 a_texCoord;
+    getPoint = (gl,imgs) => {
+        let pixels = new Uint8Array(gl.drawingBufferWidth*gl.drawingBufferHeight*4)
+        gl.readPixels(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight,gl.RGBA,gl.UNSIGNED_BYTE,pixels)
 
-            uniform vec2 u_resolution;
+        let positions = []
+        for(let y=0;y<=imgs[0].height - imgs[1].height;y++){
+            let idx = y*gl.canvas.width
+            for(let x=0;x<=imgs[0].width - imgs[1].width;x++){
+                let pos = (idx + x) * 4
+                positions.push({
+                    x,y,v:pixels[pos]
+                })
+            }
+        }
+        
+        positions.sort((a,b) => {
+            if(a.v > b.v) return -1
+            if(a.v < b.v) return 1
+            return 0
+        })
 
-            out vec2 v_texCoord;
-
-            void main() {
-                gl_Position = vec4((a_position * 2.0 / u_resolution - 1.0)*vec2(1,-1), 0, 1);
-                v_texCoord = a_texCoord;
-            }`
-
-        const fragment = 
-            `#version 300 es
-
-            precision highp float;
-
-            uniform sampler2D u_tex0;
-            uniform sampler2D u_tex1;
-
-            uniform vec2 u_res0;
-            uniform vec2 u_res1;
-
-            in vec2 v_texCoord;
-            
-            out vec4 outColor;
-            
-            void main() {
-
-                vec3 ST_sum = vec3(float(0));
-                vec3 S_sum = vec3(float(0));
-                vec3 S_sqsum = vec3(float(0));
-                vec3 T_sum = vec3(float(0));
-                vec3 T_sqsum = vec3(float(0));
-
-                for(int y=0; y<=29; y++){
-                    for(int x=0; x<=111; x++){
-                        vec2 Td = vec2(float(x),float(y)) * u_res1;
-                        vec4 T = texture(u_tex1, Td);
-                        vec2 Sd = vec2(float(x),float(y)) * u_res0;
-                        vec4 S = texture(u_tex0, v_texCoord + Sd);
-
-                        ST_sum += S.rgb * T.rgb;
-                        S_sum += S.rgb;
-                        S_sqsum += S.rgb * S.rgb;
-                        T_sum += T.rgb;
-                        T_sqsum += T.rgb * T.rgb;
-                    }
-                }
-
-                float area = 29.0 * 111.0;
-                vec3 result = (ST_sum * area - S_sum * T_sum) / sqrt((T_sqsum * area - T_sum * T_sum) * (S_sqsum * area - S_sum * S_sum));
-                vec3 y = vec3(0.29889531,0.58662247,0.11448223);
-                vec3 i = vec3(0.59597799,0.27417610,0.32180189);
-                vec3 q = vec3(0.21147017,0.52261711,0.31114694);
-                float toy = result.r*y.r + result.g*y.g + result.b*y.b;
-                float toi = result.r*i.r + result.g*i.g + result.b*i.b;
-                float toq = result.r*q.r + result.g*q.g + result.b*q.b;
-
-                outColor = vec4(vec3((toy + toi + toq) / 3.0),1);
-            }`
-
-        return {vertex,fragment}
+        return positions[0]
     }
     
     createShader = (gl, type, source) => {
@@ -202,8 +236,23 @@ export default class ImgMatch {
         gl.deleteProgram(program)
     }
 
-    loadSrc = (src) => new Promise(async res => {
-        let img = await fetch(src)
+    getArea = async (gl) => {
+        let imgs = [this.src, await this.loadImg(require('../datas/targetArea.png').default)]
+
+        let point = this.matching(gl,imgs)
+        if(point.v / 255 > 0.975){
+            let canvas = new OffscreenCanvas(imgs[0].width,imgs[0].height)
+            let context = canvas.getContext('2d')
+            context.putImageData(this.src,0,0)
+            let data = context.getImageData(point.x+30,point.y+60,390,390)
+            return data
+        }
+
+        return false
+    }
+
+    loadImg = (source) => new Promise(async res => {
+        let img = await fetch(source)
             .then(res => res.blob())
             .then(blob => createImageBitmap(blob))
         let canvas = new OffscreenCanvas(img.width, img.height)
@@ -212,14 +261,4 @@ export default class ImgMatch {
         let data = context.getImageData(0, 0, img.width, img.height)
         res(data)
     })
-
-    getResult = (gl,img) => {
-        let canvas = new OffscreenCanvas(img.width, img.height)
-        canvas.width = img.width
-        canvas.height = img.height
-        let context = canvas.getContext('2d')
-        context.drawImage(gl.canvas, 0, 0, img.width, img.height)
-        let data = context.getImageData(0, 0, img.width, img.height)
-        return data
-    }
 }

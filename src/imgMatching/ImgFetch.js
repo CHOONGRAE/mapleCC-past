@@ -213,8 +213,6 @@ export default class ImgFetch {
 
     getResult = (gl) => {
         let canvas = new OffscreenCanvas(32, 32)
-        canvas.width = 32
-        canvas.height = 32
         let context = canvas.getContext('2d')
         context.drawImage(gl.canvas, 0, 0, 32, 32)
         let data = context.getImageData(0, 0, 32, 32)

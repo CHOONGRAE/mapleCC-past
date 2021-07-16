@@ -59,12 +59,29 @@ class App extends React.Component {
                 let skillList = [...Object.keys(Data[prevState.group][selectedClass].skill)]
                 let skillData = Data[prevState.group][selectedClass].skill
 
+                let coreList = (() => {
+                    let list = []
+                    for(let f in skillList){
+                        for(let s in skillList){
+                            if(f != s){
+                                for(let t in skillList){
+                                    if(f != t && s != t){
+                                        list[list.length] = [+f,+s,+t]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return list
+                })()
+
                 return {
                     ...prevState,
                     selectedClass,
                     classImg,
                     skillList,
-                    skillData
+                    skillData,
+                    coreList
                 }
             })
         }

@@ -52,13 +52,13 @@ export default class ImageMatching extends React.Component {
 
         const {files} = this.state
 
-        // let coreImgs = await this._imgFetch()
+        let coreImgs = await this._imgFetch()
 
         let matchs = new Array(files.length)
 
         for(let i=0; i< matchs.length; i++){
             let src = URL.createObjectURL(files[i])
-            matchs[i] = new ImgMatch(src,[])
+            matchs[i] = new ImgMatch(src,coreImgs)
         }
 
         await matchs[0].run()

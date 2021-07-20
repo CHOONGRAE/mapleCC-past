@@ -1,8 +1,10 @@
 export default class ImgMatch {
 
-    constructor(src, coreImgs) {
+    constructor(src, coreImgs, i, _getResult) {
         this.src = src
         this.coreImgs = coreImgs
+        this.index = i
+        this._getResult = _getResult
     }
 
     run = async () => {
@@ -17,7 +19,6 @@ export default class ImgMatch {
         let corrects = {}
 
         for (let core of this.coreImgs) {
-            await new Promise(resolve => setTimeout(resolve, 0))
             let result = this.matching(gl, [area, core[1]], glInfo)
             if (result.length) {
                 for (let point of result) {
@@ -34,8 +35,10 @@ export default class ImgMatch {
                             value: point.v
                         }
                     }
+                    this._getResult(this.index,corrects)
                 }
             }
+            await new Promise(resolve => setTimeout(resolve, 0))
         }
 
         console.log(corrects)

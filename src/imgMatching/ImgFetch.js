@@ -9,40 +9,37 @@ export default class ImgFetch {
         let canvas = new OffscreenCanvas(32, 32)
         let gl = canvas.getContext('webgl2')
 
-        if (gl) {
-            let glInfo = this.initial(gl)
+        let glInfo = this.initial(gl)
+        
+        let list = {}
+        for (let skill of this.skillList) {
+            list[skill + 0] = await this.loadImg(this.skillData[skill].core1)
+            list[skill + 1] = await this.loadImg(this.skillData[skill].core2)
+            list[skill + 2] = await this.loadImg(this.skillData[skill].img)
+        }
 
-            let list = {}
-            for (let skill of this.skillList) {
-                list[skill + 0] = await this.loadImg(this.skillData[skill].core1)
-                list[skill + 1] = await this.loadImg(this.skillData[skill].core2)
-                list[skill + 2] = await this.loadImg(this.skillData[skill].img)
-            }
+        let frame = await this.loadImg(require('../datas/iconFrame.frame3.png').default)
 
-            let frame = await this.loadImg(require('../datas/iconFrame.frame3.png').default)
-
-            let result = []
-            for (let f = 0; f < this.skillList.length; f++) {
-                for (let s = 0; s < this.skillList.length; s++) {
-                    if (f != s) {
-                        for (let t = 0; t < this.skillList.length; t++) {
-                            if (f != t && s != t) {
-                                await new Promise(resolve => setTimeout(resolve, 0))
-                                let coreimg = this.manipulate(gl, [
-                                    list[this.skillList[f] + 0],
-                                    list[this.skillList[s] + 1],
-                                    list[this.skillList[t] + 2],
-                                    frame
-                                ],glInfo)
-                                result[result.length] = [[f,s,t],coreimg]
-                            }
+        let result = []
+        for (let f = 0; f < this.skillList.length; f++) {
+            for (let s = 0; s < this.skillList.length; s++) {
+                if (f != s) {
+                    for (let t = 0; t < this.skillList.length; t++) {
+                        if (f != t && s != t) {
+                            let coreimg = this.manipulate(gl, [
+                                list[this.skillList[f] + 0],
+                                list[this.skillList[s] + 1],
+                                list[this.skillList[t] + 2],
+                                frame
+                            ],glInfo)
+                            result[result.length] = [[f,s,t],coreimg]
+                            await new Promise(resolve => setTimeout(resolve, 0))
                         }
                     }
                 }
             }
-            return result
-
-        } else return false
+        }
+        return result
     }
 
     writeShader = () => {
@@ -222,11 +219,11 @@ export default class ImgFetch {
     }
 
     loadImg = (imgData) => new Promise(async res => {
+        let canvas = new OffscreenCanvas(32, 32)
+        let context = canvas.getContext('2d')
         let img = await fetch(imgData)
             .then(res => res.blob())
             .then(blob => createImageBitmap(blob))
-        let canvas = new OffscreenCanvas(32, 32)
-        let context = canvas.getContext('2d')
         context.drawImage(img, 0, 0, 32, 32)
         let data = context.getImageData(0, 0, 32, 32)
         res(data)

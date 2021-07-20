@@ -1,5 +1,3 @@
-import { render } from 'react-dom'
-
 export default class ImgFetch {
 
     constructor(skillList, skillData) {
@@ -12,6 +10,8 @@ export default class ImgFetch {
         let gl = canvas.getContext('webgl2')
 
         if (gl) {
+            let glInfo = this.initial(gl)
+
             let list = {}
             for (let skill of this.skillList) {
                 list[skill + 0] = await this.loadImg(this.skillData[skill].core1)
@@ -27,12 +27,13 @@ export default class ImgFetch {
                     if (f != s) {
                         for (let t = 0; t < this.skillList.length; t++) {
                             if (f != t && s != t) {
+                                await new Promise(resolve => setTimeout(resolve, 0))
                                 let coreimg = this.manipulate(gl, [
                                     list[this.skillList[f] + 0],
                                     list[this.skillList[s] + 1],
                                     list[this.skillList[t] + 2],
                                     frame
-                                ])
+                                ],glInfo)
                                 result[result.length] = [[f,s,t],coreimg]
                             }
                         }
@@ -42,92 +43,6 @@ export default class ImgFetch {
             return result
 
         } else return false
-    }
-
-    manipulate = (gl, imgs) => {
-        const {vertex, fragment} = this.writeShader()
-
-        let vertexShader = this.createShader(gl, gl.VERTEX_SHADER, vertex)
-        let fragmentShader = this.createShader(gl, gl.FRAGMENT_SHADER, fragment)
-
-        let program = this.createProgram(gl, vertexShader, fragmentShader)
-
-        let a_position = gl.getAttribLocation(program, 'a_position')
-        let a_texCoord = gl.getAttribLocation(program, 'a_texCoord')
-
-        let u_resolution = gl.getUniformLocation(program, 'u_resolution')
-        let u_texs = []
-        for (let i = 0; i < 4; i++) {
-            let u_tex = gl.getUniformLocation(program, `u_tex${i}`)
-            u_texs.push(u_tex)
-        }
-
-        let vao = gl.createVertexArray()
-        gl.bindVertexArray(vao)
-
-        let positionBuffer = gl.createBuffer()
-        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
-        gl.enableVertexAttribArray(a_position)
-
-        gl.vertexAttribPointer(
-            a_position, 2, gl.FLOAT, false, 0, 0
-        )
-
-        let texCoordBuffer = gl.createBuffer()
-        gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer)
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-            0.0, 0.0,
-            1.0, 0.0,
-            0.0, 1.0,
-            0.0, 1.0,
-            1.0, 0.0,
-            1.0, 1.0
-        ]), gl.STATIC_DRAW)
-
-        gl.enableVertexAttribArray(a_texCoord)
-
-        gl.vertexAttribPointer(
-            a_texCoord, 2, gl.FLOAT, false, 0, 0
-        )
-
-        for (let i = 0; i < 4; i++) {
-            let texture = gl.createTexture()
-            gl.activeTexture(gl.TEXTURE0 + i)
-            gl.bindTexture(gl.TEXTURE_2D, texture)
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
-
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 32, 32, 0, gl.RGBA, gl.UNSIGNED_BYTE, imgs[i])
-        }
-
-        gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
-
-        gl.clearColor(0, 0, 0, 0)
-        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-
-        gl.useProgram(program)
-        gl.bindVertexArray(vao)
-        gl.uniform2f(u_resolution, gl.canvas.width, gl.canvas.height)
-        for (let i = 0; i < 4; i++) {
-            gl.uniform1i(u_texs[i], i)
-        }
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
-
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-            0, 0,
-            imgs[0].width, 0,
-            0, imgs[0].height,
-            0, imgs[0].height,
-            imgs[0].width, 0,
-            imgs[0].width, imgs[0].height
-        ]), gl.STATIC_DRAW)
-
-        gl.drawArrays(gl.TRIANGLES, 0, 6)
-
-        return this.getResult(gl)
     }
 
     writeShader = () => {
@@ -186,6 +101,93 @@ export default class ImgFetch {
             }`
 
         return {vertex,fragment}
+    }
+
+    initial = (gl) => {
+        const {vertex, fragment} = this.writeShader()
+
+        let vertexShader = this.createShader(gl, gl.VERTEX_SHADER, vertex)
+        let fragmentShader = this.createShader(gl, gl.FRAGMENT_SHADER, fragment)
+
+        let program = this.createProgram(gl, vertexShader, fragmentShader)
+
+        gl.useProgram(program)
+
+        let a_position = gl.getAttribLocation(program, 'a_position')
+        let a_texCoord = gl.getAttribLocation(program, 'a_texCoord')
+
+        let u_resolution = gl.getUniformLocation(program, 'u_resolution')
+        let u_texs = []
+        for (let i = 0; i < 4; i++) {
+            let u_tex = gl.getUniformLocation(program, `u_tex${i}`)
+            u_texs.push(u_tex)
+        }
+
+        let positionBuffer = gl.createBuffer()
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
+        gl.enableVertexAttribArray(a_position)
+
+        gl.vertexAttribPointer(
+            a_position, 2, gl.FLOAT, false, 0, 0
+        )
+
+        let texCoordBuffer = gl.createBuffer()
+        gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer)
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+            0.0, 0.0,
+            1.0, 0.0,
+            0.0, 1.0,
+            0.0, 1.0,
+            1.0, 0.0,
+            1.0, 1.0
+        ]), gl.STATIC_DRAW)
+
+        gl.enableVertexAttribArray(a_texCoord)
+
+        gl.vertexAttribPointer(
+            a_texCoord, 2, gl.FLOAT, false, 0, 0
+        )
+
+        return { u_resolution, u_texs, positionBuffer }
+    }
+
+    manipulate = (gl, imgs, glInfo) => {
+        gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
+
+        gl.clearColor(0, 0, 0, 0)
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+
+        gl.uniform2f(glInfo.u_resolution, gl.canvas.width, gl.canvas.height)
+        for (let i = 0; i < 4; i++) {
+            gl.uniform1i(glInfo.u_texs[i], i)
+        }
+
+        for (let i = 0; i < 4; i++) {
+            let texture = gl.createTexture()
+            gl.activeTexture(gl.TEXTURE0 + i)
+            gl.bindTexture(gl.TEXTURE_2D, texture)
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
+
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 32, 32, 0, gl.RGBA, gl.UNSIGNED_BYTE, imgs[i])
+        }
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, glInfo.positionBuffer)
+
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+            0, 0,
+            imgs[0].width, 0,
+            0, imgs[0].height,
+            0, imgs[0].height,
+            imgs[0].width, 0,
+            imgs[0].width, imgs[0].height
+        ]), gl.STATIC_DRAW)
+
+        gl.drawArrays(gl.TRIANGLES, 0, 6)
+
+        return this.getResult(gl)
     }
 
     createShader = (gl, type, source) => {

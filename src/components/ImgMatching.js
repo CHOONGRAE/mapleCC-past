@@ -22,7 +22,6 @@ export default class ImageMatching extends React.Component {
 
     render = () => <Store.Consumer>
         {store => {
-
             const { files } = this.state
 
             return <div id='ImageMatching'>
@@ -33,7 +32,7 @@ export default class ImageMatching extends React.Component {
                         <label htmlFor='file'>이 미 지 선 택</label>
                         <p className='filesCnt'><span className='target'>{files.length}</span> 개의 파일</p>
                         <input type='button' id='test' onClick={() => this._imgMatch()}></input>
-                        <label htmlFor='test'>test</label>
+                        <label htmlFor='test' style={{cursor:'pointer'}}>test</label>
                     </div>
                 </div>
             </div>
@@ -61,7 +60,12 @@ export default class ImageMatching extends React.Component {
             matchs[i] = new ImgMatch(src,coreImgs)
         }
 
-        await matchs[0].run()
+        let run = []
+        for(let match of matchs){
+            run[run.length] = match.run()
+        }
+
+        await Promise.all(run)
 
         console.timeEnd('test')
     }

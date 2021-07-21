@@ -359,6 +359,21 @@ class App extends React.Component {
             })
         }
 
+        this._addMatch = (list) => {
+            this.setState(prevState => {
+                let {coreList} = prevState
+                for(let core of list){
+                    if(!this._existenceCheck(core,coreList)) coreList[coreList.length] = core
+                }
+                coreList = this._sortCoreList(coreList)
+
+                return {
+                    ...prevState,
+                    coreList
+                }
+            })
+        }
+
         this.state = {
             page: 'class',
             v_matrix: true,
@@ -396,7 +411,8 @@ class App extends React.Component {
             _changeSuperposition: this._changeSuperposition,
             _changePlusCores: this._changePlusCores,
             _checkMinCore: this._checkMinCore,
-            _changeSubSkill: this._changeSubSkill
+            _changeSubSkill: this._changeSubSkill,
+            _addMatch: this._addMatch
         }
     }
 

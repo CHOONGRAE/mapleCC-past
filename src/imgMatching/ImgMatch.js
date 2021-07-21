@@ -8,8 +8,8 @@ export default class ImgMatch {
     }
 
     run = async () => {
-        let canvas = new OffscreenCanvas(0, 0)
         this.src = await this.loadImg(this.src)
+        let canvas = new OffscreenCanvas(0, 0)
         let gl = canvas.getContext('webgl2')
 
         let glInfo = this.initial(gl)
@@ -35,7 +35,7 @@ export default class ImgMatch {
                             value: point.v
                         }
                     }
-                    this._getResult(this.index,corrects)
+                    this._getResult(this.index, corrects)
                 }
             }
             await new Promise(resolve => setTimeout(resolve, 0))

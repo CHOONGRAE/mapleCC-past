@@ -1,6 +1,6 @@
 @use 'sass:math';
 
-#AddModal, #RemoveModal, #RemoveAllModal, #ImageMatching {
+#AddModal, #RemoveModal, #RemoveAllModal {
     $rem: math.div(1rem, 16);
 
     input {

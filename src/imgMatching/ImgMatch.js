@@ -40,8 +40,6 @@ export default class ImgMatch {
             }
             await new Promise(resolve => setTimeout(resolve, 0))
         }
-
-        console.log(corrects)
     }
 
     writeShader = () => {
@@ -287,7 +285,6 @@ export default class ImgMatch {
         let points = this.matching(gl, imgs, glInfo)
         if (points.length) {
             let point = points[0]
-            console.log(point)
             let canvas = new OffscreenCanvas(imgs[0].width, imgs[0].height)
             let context = canvas.getContext('2d')
             context.putImageData(this.src, 0, 0)

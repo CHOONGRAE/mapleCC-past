@@ -186,7 +186,7 @@ export default class Calculator extends React.Component {
         }
 
         let correctList = [[]]
-        for(let index in combed){
+        for(let index=0;index<combed.length;index++){
             let main = combed[index]
             let sub = list[index]
             let temp = []

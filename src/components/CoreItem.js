@@ -3,7 +3,7 @@ import Store from '../contexts/Store'
 
 export default class CoreItem extends React.Component {
     render = () => {
-        const { className, index } = this.props
+        const { className, index, page } = this.props
         return <Store.Consumer>
             {store => {
                 const { v_matrix_mode,
@@ -29,8 +29,8 @@ export default class CoreItem extends React.Component {
                             </div>
                             : null
                     } else {
-                        if (selectedCoreList.includes(coreList[index])) string += 'selected'
-                        let target = coreList[index]
+                        if (selectedCoreList.includes(coreList[page*25 +index])) string += 'selected'
+                        let target = coreList[page*25 +index]
                         let func = _select_homeCore
                         if(v_matrix_mode == 'remove') func = _select_removeCore
                         return target

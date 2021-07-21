@@ -24,21 +24,21 @@ class App extends React.Component {
                 let skillList = [...Object.keys(Data[group][selectedClass].skill)]
                 let skillData = Data[group][selectedClass].skill
 
-                let coreList = (() => {
-                    let list = []
-                    for(let f in skillList){
-                        for(let s in skillList){
-                            if(f != s){
-                                for(let t in skillList){
-                                    if(f != t && s != t){
-                                        list[list.length] = [+f,+s,+t]
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    return list
-                })()
+                // let coreList = (() => {
+                //     let list = []
+                //     for(let f in skillList){
+                //         for(let s in skillList){
+                //             if(f != s){
+                //                 for(let t in skillList){
+                //                     if(f != t && s != t){
+                //                         list[list.length] = [+f,+s,+t]
+                //                     }
+                //                 }
+                //             }
+                //         }
+                //     }
+                //     return list
+                // })()
 
                 return {
                     ...prevState,
@@ -48,7 +48,7 @@ class App extends React.Component {
                     classImg,
                     skillList,
                     skillData,
-                    coreList
+                    // coreList
                 }
             })
         }
@@ -59,21 +59,21 @@ class App extends React.Component {
                 let skillList = [...Object.keys(Data[prevState.group][selectedClass].skill)]
                 let skillData = Data[prevState.group][selectedClass].skill
 
-                let coreList = (() => {
-                    let list = []
-                    for(let f in skillList){
-                        for(let s in skillList){
-                            if(f != s){
-                                for(let t in skillList){
-                                    if(f != t && s != t){
-                                        list[list.length] = [+f,+s,+t]
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    return list
-                })()
+                // let coreList = (() => {
+                //     let list = []
+                //     for(let f in skillList){
+                //         for(let s in skillList){
+                //             if(f != s){
+                //                 for(let t in skillList){
+                //                     if(f != t && s != t){
+                //                         list[list.length] = [+f,+s,+t]
+                //                     }
+                //                 }
+                //             }
+                //         }
+                //     }
+                //     return list
+                // })()
 
                 return {
                     ...prevState,
@@ -81,7 +81,7 @@ class App extends React.Component {
                     classImg,
                     skillList,
                     skillData,
-                    coreList
+                    // coreList
                 }
             })
         }
@@ -107,7 +107,8 @@ class App extends React.Component {
             this.setState(prevState => {
                 return {
                     ...prevState,
-                    v_matrix: !prevState.v_matrix
+                    v_matrix: !prevState.v_matrix,
+                    v_matrix_mode: 'home'
                 }
             })
         }
@@ -376,7 +377,7 @@ class App extends React.Component {
 
         this.state = {
             page: 'class',
-            v_matrix: true,
+            v_matrix: false,
             groupList: [...Object.keys(Data)],
             selectedGroup: '',
             classList: [],
@@ -384,8 +385,8 @@ class App extends React.Component {
             classImg: '',
             skillList: [],
             skillData: {},
-            targetSkillList: [0,1,2],
-            v_matrix_mode: 'create',
+            targetSkillList: [],
+            v_matrix_mode: 'home',
             coreList: [],
             selectedCoreList: [],
             selectedCore: ['', '', ''],

@@ -105,9 +105,9 @@ export default class calculate {
         .filter((_,i) => sortedCnts.sub[i] < this.superposition - 1)
         .forEach(v => result[result.length] = v)
         if(this.remain - sortedCnts.subSum - sortedCnts.notTarget > 0){
-            for(let skill in this.skillList){
-                if(!this.targetSkillList.includes(+skill) &&
-                !this.subSkillList.includes(+skill)) result[result.length] = +skill
+            for(let i=0;i<this.skillList.length;i++){
+                if(!this.targetSkillList.includes(i) &&
+                !this.subSkillList.includes(i)) result[result.length] = i
             }
         }
 

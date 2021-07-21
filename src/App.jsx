@@ -28,10 +28,10 @@ class App extends React.Component {
 
                 // coreList = (() => {
                 //     let list = []
-                //     for(let f in skillList){
-                //         for(let s in skillList){
+                //     for(let f=0;f<skillList.length;f++){
+                //         for(let s=0;s<skillList.length;s++){
                 //             if(f != s){
-                //                 for(let t in skillList){
+                //                 for(let t=0;t<skillList.length;t++){
                 //                     if(f != t && s != t){
                 //                         list[list.length] = [+f,+s,+t]
                 //                     }
@@ -66,10 +66,10 @@ class App extends React.Component {
 
                 // coreList = (() => {
                 //     let list = []
-                //     for(let f in skillList){
-                //         for(let s in skillList){
+                //     for(let f=0;f<skillList.length;f++){
+                //         for(let s=0;s<skillList.length;s++){
                 //             if(f != s){
-                //                 for(let t in skillList){
+                //                 for(let t=0;t<skillList.length;t++){
                 //                     if(f != t && s != t){
                 //                         list[list.length] = [+f,+s,+t]
                 //                     }

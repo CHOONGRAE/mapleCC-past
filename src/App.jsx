@@ -23,8 +23,10 @@ class App extends React.Component {
                 let classImg = Data[group][selectedClass].img
                 let skillList = [...Object.keys(Data[group][selectedClass].skill)]
                 let skillData = Data[group][selectedClass].skill
+                let targetSkillList = []
+                let coreList = []
 
-                // let coreList = (() => {
+                // coreList = (() => {
                 //     let list = []
                 //     for(let f in skillList){
                 //         for(let s in skillList){
@@ -48,7 +50,8 @@ class App extends React.Component {
                     classImg,
                     skillList,
                     skillData,
-                    // coreList
+                    targetSkillList,
+                    coreList
                 }
             })
         }
@@ -58,8 +61,10 @@ class App extends React.Component {
                 let classImg = Data[prevState.group][selectedClass].img
                 let skillList = [...Object.keys(Data[prevState.group][selectedClass].skill)]
                 let skillData = Data[prevState.group][selectedClass].skill
+                let targetSkillList = []
+                let coreList = []
 
-                // let coreList = (() => {
+                // coreList = (() => {
                 //     let list = []
                 //     for(let f in skillList){
                 //         for(let s in skillList){
@@ -81,7 +86,8 @@ class App extends React.Component {
                     classImg,
                     skillList,
                     skillData,
-                    // coreList
+                    targetSkillList,
+                    coreList
                 }
             })
         }
@@ -108,7 +114,14 @@ class App extends React.Component {
                 return {
                     ...prevState,
                     v_matrix: !prevState.v_matrix,
-                    v_matrix_mode: 'home'
+                    v_matrix_mode: 'home',
+                    selectedCoreList: [],
+                    selectedCore: ['', '', ''],
+                    selectedSkillList: ['', '', ''],
+                    superposition: 3,
+                    minCores: 0,
+                    plusCores: 0,
+                    subSkillList: [],
                 }
             })
         }

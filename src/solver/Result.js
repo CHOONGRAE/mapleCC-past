@@ -33,17 +33,20 @@ export default class Result extends React.Component {
     }
 
     render = () => {
-        const { result, toggle } = this.props
+        const { result, prevResult, toggle } = this.props
 
         const { currentPage } = this.state
-        const totalPage = parseInt(result.length / 10) + (result.length % 10 ? 1 : 0)
+
+        const list = [...prevResult,...result]
+
+        const totalPage = parseInt(list.length / 10) + (list.length % 10 ? 1 : 0)
 
         return <div id='Result'>
             <p className='title'>계 산 결 과 
                 <input type='button' id='back' onClick={() => toggle()}></input>
                 <label htmlFor='back'> 돌 아 가 기</label>
             </p>
-            {result.slice(currentPage*10,currentPage*10+10).map((v, i) => <ResultItem key={v} list={v} index={i} page={currentPage} />)}
+            {list.slice(currentPage*10,currentPage*10+10).map((v, i) => <ResultItem key={v} list={v} index={i} page={currentPage} />)}
             <div className='pagination'>
                 <input type='button' id='prev_page' onClick={() => this._changePage('prev', totalPage)} />
                 <label htmlFor='prev_page'>

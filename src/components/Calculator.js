@@ -21,6 +21,7 @@ export default class Calculator extends React.Component {
         state: states.START,
         iterations: 0,
         result: [],
+        prevResult: [],
         show: false
     }
 
@@ -88,8 +89,8 @@ export default class Calculator extends React.Component {
                         return <div className='status'>
                             <p className='title'>STATUS : 계 산 중</p>
                             <p><span className='target'>{this.state.iterations}</span> 번의 프로세스 실행</p>
-                            <p><span className='target'>{this.state.result.length}</span> 개의 조합 찾아냄
-                                <input type='button' id='show' disabled={!this.state.result.length} onClick={() => this._toggleShow()}/>
+                            <p><span className='target'>{this.state.result.length + this.state.prevResult.length}</span> 개의 조합 찾아냄
+                                <input type='button' id='show' disabled={!(this.state.result.length + this.state.prevResult.length)} onClick={() => this._toggleShow()}/>
                                 <label htmlFor='show' className='target'>결 과 보 기</label></p>
                             <input type='button' id='calc' className='moveRight' onClick={this._calcButton} />
                             <label htmlFor='calc'>일 시 정 지</label>
@@ -98,9 +99,10 @@ export default class Calculator extends React.Component {
                     case states.PAUSED:
                         return <div className='status'>
                             <p className='title'>STATUS : 일 시 정 지</p>
+                            <p className='target'>※결과가 일정 단위를 넘을시 자동 일시정지 됩니다.※</p>
                             <p><span className='target'>{this.state.iterations}</span> 번의 프로세스 실행</p>
-                            <p><span className='target'>{this.state.result.length}</span> 개의 조합 찾아냄
-                                <input type='button' id='show' disabled={!this.state.result.length} onClick={() => this._toggleShow()}/>
+                            <p><span className='target'>{this.state.result.length + this.state.prevResult.length}</span> 개의 조합 찾아냄
+                                <input type='button' id='show' disabled={!(this.state.result.length + this.state.prevResult.length)} onClick={() => this._toggleShow()}/>
                                 <label htmlFor='show' className='target'>결 과 보 기</label></p>
                             <input type='button' id='reset' onClick={this._reset} />
                             <label htmlFor='reset'>리 셋</label>
@@ -112,8 +114,8 @@ export default class Calculator extends React.Component {
                         return <div className='status'>
                             <p className='title'>STATUS : 계 산 완 료</p>
                             <p><span className='target'>{this.state.iterations}</span> 번의 프로세스 실행</p>
-                            <p><span className='target'>{this.state.result.length}</span> 개의 조합 찾아냄
-                                <input type='button' id='show' disabled={!this.state.result.length} onClick={() => this._toggleShow()}/>
+                            <p><span className='target'>{this.state.result.length + this.state.prevResult.length}</span> 개의 조합 찾아냄
+                                <input type='button' id='show' disabled={!(this.state.result.length + this.state.prevResult.length)} onClick={() => this._toggleShow()}/>
                                 <label htmlFor='show' className='target'>결 과 보 기</label></p>
                             <input type='button' id='calc' className='moveRight' onClick={this._calcButton} />
                             <label htmlFor='calc'>리 셋</label>
@@ -122,7 +124,7 @@ export default class Calculator extends React.Component {
             }
 
             if(this.state.show){
-                return <Result result={this.state.result} toggle={this._toggleShow}/>
+                return <Result result={this.state.result} prevResult={this.state.prevResult} toggle={this._toggleShow}/>
             } else {
                 return <div id='Calculator'>
                     <div className='coreList'>
@@ -208,6 +210,15 @@ export default class Calculator extends React.Component {
             result = result.sort((a,b) => {
                 return a.map(v => v.join('')).join('') - b.map(v => v.join('')).join('')
             })
+            let {state,prevResult} = prevState
+            if(result.length >= 1000){
+                for(let solver of solvers){
+                    solver.pause()
+                }
+                state = states.PAUSED
+                prevResult = [...prevResult,...result]
+                result = []
+            }
             let iterations = prevState.iterations
             for (let solver of solvers) {
                 iterations += solver.iterations
@@ -215,8 +226,10 @@ export default class Calculator extends React.Component {
             }
             return{
                 ...prevState,
+                state,
                 iterations,
-                result
+                result,
+                prevResult
             }
         })
     }

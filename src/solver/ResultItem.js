@@ -56,8 +56,8 @@ export default class ResultItem extends React.Component {
                             <span className='position'>&nbsp;코 어&nbsp;</span>
                             <span className='text'>{(() => {
                                 let string = []
-                                string[0] = skillData[skillList[sub2]] ? skillData[skillList[sub2]].nick + _batchimEnding(skillData[skillList[sub2]].nick) : ''
-                                string[1] = skillData[skillList[sub1]] ? skillData[skillList[sub1]].nick + '의 ' : ''
+                                string[0] = skillData[skillList[sub1]] ? skillData[skillList[sub1]].nick + _batchimEnding(skillData[skillList[sub1]].nick) : ''
+                                string[1] = skillData[skillList[sub2]] ? skillData[skillList[sub2]].nick + '의 ' : ''
                                 string[2] = skillList[main]
                                 return string.join('')
                             })()}</span>
